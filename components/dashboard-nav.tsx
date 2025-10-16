@@ -37,7 +37,7 @@ export function DashboardNav() {
   const pathname = usePathname()
 
   return (
-    <nav className="w-64 border-r border-border bg-card min-h-[calc(100vh-73px)]">
+    <nav className="hidden md:block w-64 border-r border-border bg-card min-h-[calc(100vh-73px)]">
       <div className="p-4 space-y-1">
         {navItems.map((item) => {
           const Icon = item.icon

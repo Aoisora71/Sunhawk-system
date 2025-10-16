@@ -48,17 +48,17 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <DashboardNav />
-        <main className="flex-1 p-8">
+        <main className="flex-1 p-4 md:p-8">
           <div className="max-w-7xl mx-auto space-y-8">
             {/* Page Header */}
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div>
-                <h1 className="text-3xl font-medium text-foreground mb-2">ダッシュボード</h1>
-                <p className="text-muted-foreground">組織の健全性を一目で確認できます</p>
+                <h1 className="text-2xl md:text-3xl font-medium text-foreground mb-2">ダッシュボード</h1>
+                <p className="text-sm md:text-base text-muted-foreground">組織の健全性を一目で確認できます</p>
               </div>
-              <Button variant="outline">
+              <Button variant="outline" className="w-full sm:w-auto bg-transparent">
                 <Calendar className="mr-2 h-4 w-4" />
                 期間を選択
               </Button>
@@ -71,7 +71,7 @@ export default function DashboardPage() {
                 <CardDescription>最新のサーベイ結果（2025年1月実施）</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex items-start justify-between">
+                <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-6">
                   <div className="space-y-4">
                     <ScoreBadge score={currentScore} />
                     <ScoreDescription score={currentScore} />
@@ -95,7 +95,7 @@ export default function DashboardPage() {
                       <span className="text-muted-foreground">前回比</span>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-left md:text-right w-full md:w-auto">
                     <div className="text-sm text-muted-foreground mb-1">回答率</div>
                     <div className="text-2xl font-medium text-foreground">94%</div>
                     <div className="text-sm text-muted-foreground">78名中73名が回答</div>
