@@ -46,43 +46,47 @@ export default function OrganizationPage() {
         return teamAcc + 1 + team.members.length
       }, 0)
     )
-  }, 1) // +1 for CEO
+  }, 1)
 
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <DashboardNav />
-        <main className="flex-1 p-4 md:p-8 overflow-x-auto">
-          <div className="max-w-full mx-auto space-y-8">
+        <main className="flex-1 p-3 sm:p-4 md:p-8 w-full overflow-x-auto">
+          <div className="max-w-full mx-auto space-y-4 sm:space-y-6 md:space-y-8">
             {/* Page Header */}
             <div>
-              <h1 className="text-2xl md:text-3xl font-medium text-foreground mb-2">組織図</h1>
-              <p className="text-sm md:text-base text-muted-foreground">株式会社サンホークの組織構成とスコア</p>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">組織図</h1>
+              <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
+                株式会社サンホークの組織構成とスコア
+              </p>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription className="text-xs md:text-sm">総従業員数</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">総従業員数</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
-                    <span className="text-xl md:text-2xl font-medium text-foreground">{totalEmployees}名</span>
+                    <Users className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
+                      {totalEmployees}名
+                    </span>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription className="text-xs md:text-sm">部門数</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">部門数</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
-                    <span className="text-xl md:text-2xl font-medium text-foreground">
+                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
                       {organizationData.length}部門
                     </span>
                   </div>
@@ -90,11 +94,11 @@ export default function OrganizationPage() {
               </Card>
 
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription className="text-xs md:text-sm">組織平均スコア</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">組織平均スコア</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-xl md:text-2xl font-medium text-foreground">78点</div>
+                  <div className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">78点</div>
                   <Badge className="mt-2 bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
                 </CardContent>
               </Card>
@@ -102,18 +106,18 @@ export default function OrganizationPage() {
 
             {/* Organization Tree */}
             <Card className="overflow-hidden">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg md:text-xl">
-                  <Building2 className="h-5 w-5" />
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
+                  <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
                   組織構成図
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-4 md:p-6 overflow-x-auto">
+              <CardContent className="p-3 sm:p-4 md:p-6 overflow-x-auto">
                 <div className="min-w-max md:min-w-full pb-4">
                   {/* CEO */}
                   <OrgTreeNode employee={ceo} level={0} hasChildren={organizationData.length > 0}>
                     {/* Departments */}
-                    <div className="mt-6 space-y-6">
+                    <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
                       {organizationData.map((department, index) => (
                         <OrgTreeDepartment
                           key={department.id}
@@ -129,26 +133,26 @@ export default function OrganizationPage() {
 
             {/* Legend */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-base md:text-lg">凡例</CardTitle>
+              <CardHeader className="pb-2 sm:pb-3">
+                <CardTitle className="text-sm sm:text-base md:text-lg">凡例</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-[oklch(0.45_0.18_145)]" />
-                    <span className="text-xs md:text-sm text-muted-foreground">85点以上</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">85点以上</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-[oklch(0.55_0.15_160)]" />
-                    <span className="text-xs md:text-sm text-muted-foreground">70-84点</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">70-84点</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-[oklch(0.65_0.12_264)]" />
-                    <span className="text-xs md:text-sm text-muted-foreground">55-69点</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">55-69点</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="h-3 w-3 rounded-full bg-[oklch(0.75_0.15_65)]" />
-                    <span className="text-xs md:text-sm text-muted-foreground">45-54点</span>
+                    <span className="text-xs sm:text-sm text-muted-foreground">45-54点</span>
                   </div>
                 </div>
               </CardContent>

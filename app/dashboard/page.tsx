@@ -50,15 +50,19 @@ export default function DashboardPage() {
       <DashboardHeader />
       <div className="flex flex-col md:flex-row">
         <DashboardNav />
-        <main className="flex-1 p-4 md:p-8">
-          <div className="max-w-7xl mx-auto space-y-8">
+        <main className="flex-1 p-3 sm:p-4 md:p-8 w-full overflow-x-hidden">
+          <div className="max-w-7xl mx-auto space-y-6 sm:space-y-8">
             {/* Page Header */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-3 sm:gap-4">
               <div>
-                <h1 className="text-2xl md:text-3xl font-medium text-foreground mb-2">ダッシュボード</h1>
-                <p className="text-sm md:text-base text-muted-foreground">組織の健全性を一目で確認できます</p>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">
+                  ダッシュボード
+                </h1>
+                <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
+                  組織の健全性を一目で確認できます
+                </p>
               </div>
-              <Button variant="outline" className="w-full sm:w-auto bg-transparent">
+              <Button variant="outline" className="w-full sm:w-auto bg-transparent text-sm sm:text-base">
                 <Calendar className="mr-2 h-4 w-4" />
                 期間を選択
               </Button>
@@ -66,16 +70,16 @@ export default function DashboardPage() {
 
             {/* Overall Score Card */}
             <Card>
-              <CardHeader>
-                <CardTitle>総合スコア</CardTitle>
-                <CardDescription>最新のサーベイ結果（2025年1月実施）</CardDescription>
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-lg sm:text-xl">総合スコア</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">最新のサーベイ結果（2025年1月実施）</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-col md:flex-row items-start md:items-start justify-between gap-6">
-                  <div className="space-y-4">
+                <div className="flex flex-col gap-4 sm:gap-6">
+                  <div className="space-y-3 sm:space-y-4">
                     <ScoreBadge score={currentScore} />
                     <ScoreDescription score={currentScore} />
-                    <div className="flex items-center gap-2 text-sm">
+                    <div className="flex items-center gap-2 text-xs sm:text-sm">
                       {scoreDiff > 0 ? (
                         <>
                           <TrendingUp className="h-4 w-4 text-[oklch(0.55_0.15_160)]" />
@@ -95,22 +99,22 @@ export default function DashboardPage() {
                       <span className="text-muted-foreground">前回比</span>
                     </div>
                   </div>
-                  <div className="text-left md:text-right w-full md:w-auto">
-                    <div className="text-sm text-muted-foreground mb-1">回答率</div>
-                    <div className="text-2xl font-medium text-foreground">94%</div>
-                    <div className="text-sm text-muted-foreground">78名中73名が回答</div>
+                  <div className="text-left border-t border-border pt-4">
+                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">回答率</div>
+                    <div className="text-xl sm:text-2xl font-medium text-foreground">94%</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground">78名中73名が回答</div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Charts Grid */}
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
               {/* Radar Chart */}
               <Card>
-                <CardHeader>
-                  <CardTitle>カテゴリ別評価</CardTitle>
-                  <CardDescription>6つの主要カテゴリのバランス</CardDescription>
+                <CardHeader className="pb-3 sm:pb-4">
+                  <CardTitle className="text-lg sm:text-xl">カテゴリ別評価</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">6つの主要カテゴリのバランス</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ChartContainer
@@ -120,12 +124,12 @@ export default function DashboardPage() {
                         color: "oklch(0.45 0.15 264)",
                       },
                     }}
-                    className="h-[300px]"
+                    className="h-[250px] sm:h-[300px]"
                   >
                     <ResponsiveContainer width="100%" height="100%">
                       <RadarChart data={radarData}>
                         <PolarGrid stroke="oklch(0.92 0.005 264)" />
-                        <PolarAngleAxis dataKey="category" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: 12 }} />
+                        <PolarAngleAxis dataKey="category" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: 11 }} />
                         <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "oklch(0.55 0.01 264)" }} />
                         <Radar
                           name="スコア"
@@ -142,9 +146,9 @@ export default function DashboardPage() {
 
               {/* Department Comparison */}
               <Card>
-                <CardHeader>
-                  <CardTitle>部門別スコア</CardTitle>
-                  <CardDescription>各部門の総合スコア比較</CardDescription>
+                <CardHeader className="pb-3 sm:pb-4">
+                  <CardTitle className="text-lg sm:text-xl">部門別スコア</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">各部門の総合スコア比較</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ChartContainer
@@ -154,12 +158,12 @@ export default function DashboardPage() {
                         color: "oklch(0.45 0.15 264)",
                       },
                     }}
-                    className="h-[300px]"
+                    className="h-[250px] sm:h-[300px]"
                   >
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={departmentData}>
                         <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 264)" />
-                        <XAxis dataKey="name" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: 11 }} />
+                        <XAxis dataKey="name" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: 10 }} />
                         <YAxis domain={[0, 100]} tick={{ fill: "oklch(0.55 0.01 264)" }} />
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Bar dataKey="score" fill="oklch(0.45 0.15 264)" radius={[4, 4, 0, 0]} />
@@ -172,9 +176,9 @@ export default function DashboardPage() {
 
             {/* Historical Trend */}
             <Card>
-              <CardHeader>
-                <CardTitle>スコア推移</CardTitle>
-                <CardDescription>過去6ヶ月間の総合スコアの変化</CardDescription>
+              <CardHeader className="pb-3 sm:pb-4">
+                <CardTitle className="text-lg sm:text-xl">スコア推移</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">過去6ヶ月間の総合スコアの変化</CardDescription>
               </CardHeader>
               <CardContent>
                 <ChartContainer
@@ -184,12 +188,12 @@ export default function DashboardPage() {
                       color: "oklch(0.45 0.15 264)",
                     },
                   }}
-                  className="h-[250px]"
+                  className="h-[200px] sm:h-[250px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={historicalData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 264)" />
-                      <XAxis dataKey="month" tick={{ fill: "oklch(0.55 0.01 264)" }} />
+                      <XAxis dataKey="month" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: 10 }} />
                       <YAxis domain={[0, 100]} tick={{ fill: "oklch(0.55 0.01 264)" }} />
                       <ChartTooltip content={<ChartTooltipContent />} />
                       <Bar dataKey="score" fill="oklch(0.45 0.15 264)" radius={[4, 4, 0, 0]} />
@@ -200,34 +204,34 @@ export default function DashboardPage() {
             </Card>
 
             {/* Quick Stats */}
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>最高スコア部門</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">最高スコア部門</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-medium text-foreground">管理課</div>
-                  <p className="text-sm text-muted-foreground mt-1">85点</p>
+                  <div className="text-lg sm:text-2xl font-medium text-foreground">管理課</div>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">85点</p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>改善が必要な領域</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">改善が必要な領域</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-medium text-foreground">イノベーション</div>
-                  <p className="text-sm text-muted-foreground mt-1">68点</p>
+                  <div className="text-lg sm:text-2xl font-medium text-foreground">イノベーション</div>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">68点</p>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>次回サーベイ</CardDescription>
+                <CardHeader className="pb-2 sm:pb-3">
+                  <CardDescription className="text-xs sm:text-sm">次回サーベイ</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-medium text-foreground">2025年4月</div>
-                  <p className="text-sm text-muted-foreground mt-1">3ヶ月後</p>
+                  <div className="text-lg sm:text-2xl font-medium text-foreground">2025年4月</div>
+                  <p className="text-xs sm:text-sm text-muted-foreground mt-1">3ヶ月後</p>
                 </CardContent>
               </Card>
             </div>
