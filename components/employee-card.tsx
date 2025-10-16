@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import type { Employee } from "@/lib/organization-data"
+import { getPositionColor } from "@/lib/position-colors"
 import { cn } from "@/lib/utils"
 
 interface EmployeeCardProps {
@@ -32,11 +33,24 @@ export function EmployeeCard({ employee, showScore = true, size = "md" }: Employ
     }
   }
 
+  const positionColor = getPositionColor(employee.position)
+
   return (
-    <Card className={cn("hover:shadow-md transition-shadow", size === "sm" && "text-sm")}>
+    <Card
+      className={cn("hover:shadow-md transition-shadow border-2", positionColor.border, size === "sm" && "text-sm")}
+    >
       <CardContent className={cn("p-4", size === "sm" && "p-3")}>
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
+            <div
+              className={cn(
+                "inline-block px-2 py-1 rounded text-xs font-medium mb-2",
+                positionColor.bg,
+                positionColor.text,
+              )}
+            >
+              {positionColor.label}
+            </div>
             <div className="flex items-center gap-2 mb-1">
               <h3 className={cn("font-medium text-foreground truncate", size === "sm" && "text-sm")}>
                 {employee.name}
