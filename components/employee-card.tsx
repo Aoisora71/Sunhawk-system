@@ -37,35 +37,35 @@ export function EmployeeCard({ employee, showScore = true, size = "md", compact 
   const positionColor = getPositionColor(employee.position)
 
   const sizeClasses = {
-    xs: "p-2 sm:p-2.5",
-    sm: "p-2.5 sm:p-3",
-    md: "p-3 sm:p-4",
-    lg: "p-4 sm:p-5",
+    xs: "p-1.5 sm:p-2",
+    sm: "p-2 sm:p-2.5",
+    md: "p-2.5 sm:p-3",
+    lg: "p-3 sm:p-4",
   }
 
   const textSizeClasses = {
     xs: "text-xs",
     sm: "text-xs sm:text-sm",
-    md: "text-sm md:text-base",
-    lg: "text-base md:text-lg",
+    md: "text-sm sm:text-base",
+    lg: "text-base sm:text-lg",
   }
 
   return (
     <Card
       className={cn(
-        "hover:shadow-md transition-all border-2 duration-200",
+        "hover:shadow-md transition-all border-2 duration-200 active:shadow-lg",
         positionColor.border,
         size === "sm" && "text-sm",
         size === "xs" && "text-xs",
       )}
     >
       <CardContent className={sizeClasses[size]}>
-        <div className={cn("flex items-start justify-between gap-2 sm:gap-3", compact && "flex-col gap-1.5")}>
+        <div className={cn("flex items-start justify-between gap-1.5 sm:gap-2", compact && "flex-col gap-1")}>
           <div className="flex-1 min-w-0">
-            {/* Position badge */}
+            {/* Position badge - mobile optimized */}
             <div
               className={cn(
-                "inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs font-medium mb-1 sm:mb-2",
+                "inline-block px-1 sm:px-1.5 py-0.5 rounded text-xs font-medium mb-0.5 sm:mb-1",
                 positionColor.bg,
                 positionColor.text,
                 size === "xs" && "px-1 py-0.5 text-xs",
@@ -74,10 +74,10 @@ export function EmployeeCard({ employee, showScore = true, size = "md", compact 
               {positionColor.label}
             </div>
 
-            {/* Name and type */}
-            <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+            {/* Name and type - improved mobile layout */}
+            <div className="flex items-center gap-1 sm:gap-1.5 mb-0.5">
               <h3 className={cn("font-medium text-foreground truncate", textSizeClasses[size])}>{employee.name}</h3>
-              <Badge variant="secondary" className={cn("text-xs shrink-0", size === "xs" && "text-xs px-1.5 py-0")}>
+              <Badge variant="secondary" className={cn("text-xs shrink-0", size === "xs" && "text-xs px-1 py-0")}>
                 {getTypeLabel(employee.type)}
               </Badge>
             </div>
@@ -100,17 +100,13 @@ export function EmployeeCard({ employee, showScore = true, size = "md", compact 
             )}
           </div>
 
-          {/* Score display - responsive positioning */}
+          {/* Score display - mobile optimized positioning */}
           {showScore && employee.score && (
-            <div className={cn("flex flex-col items-end shrink-0", compact && "flex-row items-center gap-2")}>
+            <div className={cn("flex flex-col items-end shrink-0 gap-0.5", compact && "flex-row items-center gap-1")}>
               <div className={cn("font-medium text-foreground", textSizeClasses[size])}>{employee.score}</div>
               <div
-                className={cn(
-                  "h-1 sm:h-1.5 rounded-full mt-0.5 sm:mt-1",
-                  getScoreColor(employee.score),
-                  compact && "w-8 mt-0",
-                )}
-                style={{ width: compact ? "2rem" : "3rem" }}
+                className={cn("h-1 sm:h-1.5 rounded-full", getScoreColor(employee.score), compact && "w-6 sm:w-8")}
+                style={{ width: compact ? "1.5rem" : "2.5rem" }}
               />
             </div>
           )}

@@ -53,74 +53,76 @@ export default function OrganizationPage() {
       <DashboardHeader />
       <div className="flex flex-col md:flex-row">
         <DashboardNav />
-        <main className="flex-1 p-3 sm:p-4 md:p-8 w-full overflow-x-auto">
-          <div className="max-w-full mx-auto space-y-4 sm:space-y-6 md:space-y-8">
-            {/* Page Header */}
+        <main className="flex-1 p-2 sm:p-3 md:p-8 w-full overflow-x-auto">
+          <div className="max-w-full mx-auto space-y-3 sm:space-y-4 md:space-y-6">
+            {/* Page Header - mobile optimized */}
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">組織図</h1>
+              <h1 className="text-lg sm:text-xl md:text-3xl font-medium text-foreground mb-0.5 sm:mb-1">組織図</h1>
               <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
                 株式会社サンホークの組織構成とスコア
               </p>
             </div>
 
-            {/* Stats - improved responsive grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {/* Stats - mobile optimized grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
               <Card className="hover:shadow-sm transition-shadow">
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
-                    <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <Users className="h-3 w-3 sm:h-4 sm:w-4" />
                     総従業員数
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">{totalEmployees}名</span>
+                  <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">
+                    {totalEmployees}名
+                  </span>
                 </CardContent>
               </Card>
 
               <Card className="hover:shadow-sm transition-shadow">
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
-                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" />
                     部門数
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
+                  <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">
                     {organizationData.length}部門
                   </span>
                 </CardContent>
               </Card>
 
               <Card className="hover:shadow-sm transition-shadow sm:col-span-2 lg:col-span-1">
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
-                    <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
                     組織平均スコア
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-3">
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">78点</span>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">78点</span>
                     <Badge className="bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Organization Tree - improved mobile scrolling */}
+            {/* Organization Tree - mobile optimized */}
             <Card className="overflow-hidden">
-              <CardHeader className="pb-3 sm:pb-4 border-b">
-                <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
-                  <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
+              <CardHeader className="pb-2 sm:pb-3 border-b">
+                <CardTitle className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base md:text-lg">
+                  <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
                   組織構成図
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3 sm:p-4 md:p-6 overflow-x-auto">
-                <div className="min-w-max md:min-w-full pb-4">
+              <CardContent className="p-2 sm:p-3 md:p-6 overflow-x-auto">
+                <div className="min-w-max md:min-w-full pb-2 sm:pb-3 md:pb-4">
                   {/* CEO */}
                   <OrgTreeNode employee={ceo} level={0} hasChildren={organizationData.length > 0}>
                     {/* Departments */}
-                    <div className="mt-4 sm:mt-6 md:mt-8 space-y-4 sm:space-y-6 md:space-y-8">
+                    <div className="mt-2 sm:mt-3 md:mt-6 space-y-2 sm:space-y-3 md:space-y-6">
                       {organizationData.map((department, index) => (
                         <OrgTreeDepartment
                           key={department.id}
@@ -134,27 +136,27 @@ export default function OrganizationPage() {
               </CardContent>
             </Card>
 
-            {/* Legend - improved responsive layout */}
+            {/* Legend - mobile optimized */}
             <Card>
               <CardHeader className="pb-2 sm:pb-3 border-b">
-                <CardTitle className="text-sm sm:text-base md:text-lg">スコア凡例</CardTitle>
+                <CardTitle className="text-xs sm:text-sm md:text-base">スコア凡例</CardTitle>
               </CardHeader>
-              <CardContent className="pt-4 sm:pt-6">
-                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.45_0.18_145)] shrink-0" />
+              <CardContent className="pt-2 sm:pt-3 md:pt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.45_0.18_145)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">85点以上</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.55_0.15_160)] shrink-0" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.55_0.15_160)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">70-84点</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.65_0.12_264)] shrink-0" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.65_0.12_264)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">55-69点</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.75_0.15_65)] shrink-0" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.75_0.15_65)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">45-54点</span>
                   </div>
                 </div>

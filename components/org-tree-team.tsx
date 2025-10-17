@@ -15,7 +15,7 @@ export function OrgTreeTeam({ team, level, isLast = true }: OrgTreeTeamProps) {
   return (
     <OrgTreeNode employee={team.manager} level={level} isLast={isLast} hasChildren={hasMembers}>
       {hasMembers && (
-        <div className="space-y-2 sm:space-y-3 md:space-y-4">
+        <div className="space-y-1.5 sm:space-y-2 md:space-y-3">
           {team.members.map((member, index) => (
             <OrgTreeNode
               key={member.id}
