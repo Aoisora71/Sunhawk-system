@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { OrgTreeNode } from "@/components/org-tree-node"
 import { OrgTreeDepartment } from "@/components/org-tree-department"
 import { organizationData, ceo } from "@/lib/organization-data"
-import { Users, Building2 } from "lucide-react"
+import { Users, Building2, TrendingUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 export default function OrganizationPage() {
@@ -63,50 +63,53 @@ export default function OrganizationPage() {
               </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-              <Card>
+            {/* Stats - improved responsive grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+              <Card className="hover:shadow-sm transition-shadow">
                 <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">総従業員数</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
+                    <Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    総従業員数
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
-                      {totalEmployees}名
-                    </span>
-                  </div>
+                  <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">{totalEmployees}名</span>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover:shadow-sm transition-shadow">
                 <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">部門数</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
+                    <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    部門数
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
-                      {organizationData.length}部門
-                    </span>
-                  </div>
+                  <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">
+                    {organizationData.length}部門
+                  </span>
                 </CardContent>
               </Card>
 
-              <Card>
+              <Card className="hover:shadow-sm transition-shadow sm:col-span-2 lg:col-span-1">
                 <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">組織平均スコア</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-2">
+                    <TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    組織平均スコア
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">78点</div>
-                  <Badge className="mt-2 bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">78点</span>
+                    <Badge className="bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Organization Tree */}
+            {/* Organization Tree - improved mobile scrolling */}
             <Card className="overflow-hidden">
-              <CardHeader className="pb-3 sm:pb-4">
+              <CardHeader className="pb-3 sm:pb-4 border-b">
                 <CardTitle className="flex items-center gap-2 text-base sm:text-lg md:text-xl">
                   <Building2 className="h-4 w-4 sm:h-5 sm:w-5" />
                   組織構成図
@@ -117,7 +120,7 @@ export default function OrganizationPage() {
                   {/* CEO */}
                   <OrgTreeNode employee={ceo} level={0} hasChildren={organizationData.length > 0}>
                     {/* Departments */}
-                    <div className="mt-4 sm:mt-6 space-y-4 sm:space-y-6">
+                    <div className="mt-4 sm:mt-6 md:mt-8 space-y-4 sm:space-y-6 md:space-y-8">
                       {organizationData.map((department, index) => (
                         <OrgTreeDepartment
                           key={department.id}
@@ -131,27 +134,27 @@ export default function OrganizationPage() {
               </CardContent>
             </Card>
 
-            {/* Legend */}
+            {/* Legend - improved responsive layout */}
             <Card>
-              <CardHeader className="pb-2 sm:pb-3">
-                <CardTitle className="text-sm sm:text-base md:text-lg">凡例</CardTitle>
+              <CardHeader className="pb-2 sm:pb-3 border-b">
+                <CardTitle className="text-sm sm:text-base md:text-lg">スコア凡例</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+              <CardContent className="pt-4 sm:pt-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
                   <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.45_0.18_145)]" />
+                    <div className="h-3 w-3 rounded-full bg-[oklch(0.45_0.18_145)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">85点以上</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.55_0.15_160)]" />
+                    <div className="h-3 w-3 rounded-full bg-[oklch(0.55_0.15_160)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">70-84点</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.65_0.12_264)]" />
+                    <div className="h-3 w-3 rounded-full bg-[oklch(0.65_0.12_264)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">55-69点</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="h-3 w-3 rounded-full bg-[oklch(0.75_0.15_65)]" />
+                    <div className="h-3 w-3 rounded-full bg-[oklch(0.75_0.15_65)] shrink-0" />
                     <span className="text-xs sm:text-sm text-muted-foreground">45-54点</span>
                   </div>
                 </div>

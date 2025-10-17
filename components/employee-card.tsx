@@ -7,10 +7,11 @@ import { cn } from "@/lib/utils"
 interface EmployeeCardProps {
   employee: Employee
   showScore?: boolean
-  size?: "sm" | "md" | "lg"
+  size?: "xs" | "sm" | "md" | "lg"
+  compact?: boolean
 }
 
-export function EmployeeCard({ employee, showScore = true, size = "md" }: EmployeeCardProps) {
+export function EmployeeCard({ employee, showScore = true, size = "md", compact = false }: EmployeeCardProps) {
   const getScoreColor = (score?: number) => {
     if (!score) return "bg-muted"
     if (score <= 45) return "bg-[oklch(0.55_0.22_25)]"
@@ -35,45 +36,82 @@ export function EmployeeCard({ employee, showScore = true, size = "md" }: Employ
 
   const positionColor = getPositionColor(employee.position)
 
+  const sizeClasses = {
+    xs: "p-2 sm:p-2.5",
+    sm: "p-2.5 sm:p-3",
+    md: "p-3 sm:p-4",
+    lg: "p-4 sm:p-5",
+  }
+
+  const textSizeClasses = {
+    xs: "text-xs",
+    sm: "text-xs sm:text-sm",
+    md: "text-sm md:text-base",
+    lg: "text-base md:text-lg",
+  }
+
   return (
     <Card
-      className={cn("hover:shadow-md transition-shadow border-2", positionColor.border, size === "sm" && "text-sm")}
+      className={cn(
+        "hover:shadow-md transition-all border-2 duration-200",
+        positionColor.border,
+        size === "sm" && "text-sm",
+        size === "xs" && "text-xs",
+      )}
     >
-      <CardContent className={cn("p-4", size === "sm" && "p-3")}>
-        <div className="flex items-start justify-between gap-3">
+      <CardContent className={sizeClasses[size]}>
+        <div className={cn("flex items-start justify-between gap-2 sm:gap-3", compact && "flex-col gap-1.5")}>
           <div className="flex-1 min-w-0">
+            {/* Position badge */}
             <div
               className={cn(
-                "inline-block px-2 py-1 rounded text-xs font-medium mb-2",
+                "inline-block px-1.5 sm:px-2 py-0.5 sm:py-1 rounded text-xs font-medium mb-1 sm:mb-2",
                 positionColor.bg,
                 positionColor.text,
+                size === "xs" && "px-1 py-0.5 text-xs",
               )}
             >
               {positionColor.label}
             </div>
-            <div className="flex items-center gap-2 mb-1">
-              <h3 className={cn("font-medium text-foreground truncate", size === "sm" && "text-sm")}>
-                {employee.name}
-              </h3>
-              <Badge variant="secondary" className="text-xs shrink-0">
+
+            {/* Name and type */}
+            <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5 sm:mb-1">
+              <h3 className={cn("font-medium text-foreground truncate", textSizeClasses[size])}>{employee.name}</h3>
+              <Badge variant="secondary" className={cn("text-xs shrink-0", size === "xs" && "text-xs px-1.5 py-0")}>
                 {getTypeLabel(employee.type)}
               </Badge>
             </div>
-            <p className={cn("text-muted-foreground truncate", size === "sm" ? "text-xs" : "text-sm")}>
+
+            {/* Position */}
+            <p className={cn("text-muted-foreground truncate", size === "xs" ? "text-xs" : "text-xs sm:text-sm")}>
               {employee.position}
             </p>
-            {employee.team && (
-              <p className={cn("text-muted-foreground truncate mt-0.5", size === "sm" ? "text-xs" : "text-sm")}>
+
+            {/* Team - hidden on xs size for mobile */}
+            {employee.team && !compact && (
+              <p
+                className={cn(
+                  "text-muted-foreground truncate mt-0.5",
+                  size === "xs" ? "text-xs" : "text-xs sm:text-sm",
+                )}
+              >
                 {employee.team}
               </p>
             )}
           </div>
+
+          {/* Score display - responsive positioning */}
           {showScore && employee.score && (
-            <div className="flex flex-col items-end shrink-0">
-              <div className={cn("font-medium text-foreground", size === "sm" ? "text-base" : "text-lg")}>
-                {employee.score}
-              </div>
-              <div className={cn("h-1.5 w-12 rounded-full mt-1", getScoreColor(employee.score))} />
+            <div className={cn("flex flex-col items-end shrink-0", compact && "flex-row items-center gap-2")}>
+              <div className={cn("font-medium text-foreground", textSizeClasses[size])}>{employee.score}</div>
+              <div
+                className={cn(
+                  "h-1 sm:h-1.5 rounded-full mt-0.5 sm:mt-1",
+                  getScoreColor(employee.score),
+                  compact && "w-8 mt-0",
+                )}
+                style={{ width: compact ? "2rem" : "3rem" }}
+              />
             </div>
           )}
         </div>

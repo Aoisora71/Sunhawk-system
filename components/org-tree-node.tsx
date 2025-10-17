@@ -20,52 +20,72 @@ interface OrgTreeNodeProps {
 export function OrgTreeNode({ employee, children, level, isLast = true, hasChildren = false }: OrgTreeNodeProps) {
   const [isExpanded, setIsExpanded] = useState(level < 2)
 
-  const paddingLeft = level * 2
+  const getPaddingLeft = () => {
+    if (level === 0) return "0"
+    if (level === 1) return "1rem"
+    if (level === 2) return "2rem"
+    return "3rem"
+  }
 
   return (
     <div className="relative">
-      {/* Vertical line from parent */}
+      {/* Vertical line from parent - responsive styling */}
       {level > 0 && (
         <div
-          className={cn("absolute left-0 top-0 w-px bg-border", isLast ? "h-12" : "h-full")}
-          style={{ left: `${level * 2 - 1}rem` }}
+          className={cn(
+            "absolute top-0 w-px bg-border/60 transition-colors",
+            isLast ? "h-12 sm:h-14 md:h-16" : "h-full",
+          )}
+          style={{ left: `calc(${getPaddingLeft()} - 0.5rem)` }}
         />
       )}
 
-      {/* Horizontal line to node */}
+      {/* Horizontal line to node - responsive styling */}
       {level > 0 && (
         <div
-          className="absolute top-12 h-px bg-border"
+          className="absolute h-px bg-border/60 transition-colors"
           style={{
-            left: `${level * 2 - 1}rem`,
-            width: "1rem",
+            top: "3rem",
+            left: `calc(${getPaddingLeft()} - 0.5rem)`,
+            width: "0.5rem",
           }}
         />
       )}
 
       {/* Node container */}
-      <div style={{ paddingLeft: `${paddingLeft}rem` }} className="relative">
-        <div className="flex items-start gap-2">
+      <div style={{ paddingLeft: getPaddingLeft() }} className="relative">
+        <div className="flex items-start gap-1.5 sm:gap-2">
+          {/* Expand/collapse button */}
           {hasChildren && (
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsExpanded(!isExpanded)}
-              className="h-8 w-8 p-0 shrink-0 mt-1"
+              className="h-7 w-7 sm:h-8 sm:w-8 p-0 shrink-0 mt-1 hover:bg-accent/50"
             >
-              {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+              {isExpanded ? (
+                <ChevronDown className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              ) : (
+                <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              )}
             </Button>
           )}
-          {!hasChildren && level > 0 && <div className="h-8 w-8" />}
+          {!hasChildren && level > 0 && <div className="h-7 w-7 sm:h-8 sm:w-8 shrink-0" />}
 
-          {/* Employee card */}
+          {/* Employee card - responsive sizing */}
           <div className="flex-1 min-w-0">
-            <EmployeeCard employee={employee} size={level === 0 ? "md" : level === 1 ? "sm" : "sm"} />
+            <EmployeeCard
+              employee={employee}
+              size={level === 0 ? "md" : level === 1 ? "sm" : "xs"}
+              compact={level > 1}
+            />
           </div>
         </div>
 
-        {/* Children */}
-        {isExpanded && children && <div className="mt-4 relative">{children}</div>}
+        {/* Children with smooth animation */}
+        {isExpanded && children && (
+          <div className="mt-3 sm:mt-4 md:mt-5 relative animate-in fade-in duration-200">{children}</div>
+        )}
       </div>
     </div>
   )
