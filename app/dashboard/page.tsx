@@ -26,12 +26,14 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 
 // Sample data for radar chart
 const radarData = [
-  { category: "リーダーシップ", score: 78, fullMark: 100 },
-  { category: "チームワーク", score: 82, fullMark: 100 },
-  { category: "コミュニケーション", score: 71, fullMark: 100 },
-  { category: "業務効率", score: 85, fullMark: 100 },
-  { category: "イノベーション", score: 68, fullMark: 100 },
-  { category: "顧客志向", score: 79, fullMark: 100 },
+  { category: "変化意識", score: 78, fullMark: 100 },
+  { category: "成果視点", score: 82, fullMark: 100 },
+  { category: "行動優先意識", score: 71, fullMark: 100 },
+  { category: "結果明確", score: 85, fullMark: 100 },
+  { category: "自己評価意識", score: 68, fullMark: 100 },
+  { category: "時感覚", score: 79, fullMark: 100 },
+  { category: "組織内位置認識", score: 76, fullMark: 100 },
+  { category: "免責意識", score: 81, fullMark: 100 },
 ]
 
 // Sample data for bar chart (department comparison)
@@ -127,7 +129,7 @@ export default function DashboardPage() {
               <Card className="overflow-hidden">
                 <CardHeader className="pb-2 sm:pb-3 md:pb-4">
                   <CardTitle className="text-base sm:text-lg md:text-xl">カテゴリ別評価</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm">6つの主要カテゴリのバランス</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm">8つの主要カテゴリのバランス</CardDescription>
                 </CardHeader>
                 <CardContent className="p-2 sm:p-3 md:p-6">
                   <ChartContainer
@@ -280,7 +282,7 @@ export default function DashboardPage() {
                   <CardDescription className="text-xs sm:text-sm">改善が必要な領域</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-lg sm:text-2xl font-medium text-foreground">イノベーション</div>
+                  <div className="text-lg sm:text-2xl font-medium text-foreground">自己評価意識</div>
                   <p className="text-xs sm:text-sm text-muted-foreground mt-1">68点</p>
                 </CardContent>
               </Card>

@@ -137,14 +137,16 @@ export default function SurveyPage() {
                 <CardTitle className="text-sm sm:text-base">カテゴリ別進捗</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
                   {[
-                    "リーダーシップ",
-                    "チームワーク",
-                    "コミュニケーション",
-                    "業務効率",
-                    "イノベーション",
-                    "顧客志向",
+                    "変化意識",
+                    "成果視点",
+                    "行動優先意識",
+                    "結果明確",
+                    "自己評価意識",
+                    "時感覚",
+                    "組織内位置認識",
+                    "免責意識",
                   ].map((category) => {
                     const categoryQuestions = surveyQuestions.filter((q) => q.category === category)
                     const categoryAnswered = categoryQuestions.filter((q) => answers[q.id]).length
