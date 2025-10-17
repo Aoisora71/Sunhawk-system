@@ -94,97 +94,91 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex flex-col md:flex-row">
+      <div className="flex">
         <DashboardNav />
-        <main className="flex-1 p-3 sm:p-4 md:p-8 w-full overflow-x-hidden">
-          <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
+        <main className="flex-1 p-8">
+          <div className="max-w-7xl mx-auto space-y-8">
             {/* Page Header */}
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">管理画面</h1>
-              <p className="text-xs sm:text-sm md:text-base text-muted-foreground">システムの設定とユーザー管理</p>
+              <h1 className="text-3xl font-medium text-foreground mb-2">管理画面</h1>
+              <p className="text-muted-foreground">システムの設定とユーザー管理</p>
             </div>
 
             {/* Quick Stats */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+            <div className="grid md:grid-cols-4 gap-6">
               <Card>
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">登録ユーザー数</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardDescription>登録ユーザー数</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">78名</span>
+                    <Users className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-2xl font-medium text-foreground">78名</span>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">実施中のサーベイ</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardDescription>実施中のサーベイ</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">1件</span>
+                    <FileText className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-2xl font-medium text-foreground">1件</span>
                   </div>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">現在の回答率</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardDescription>現在の回答率</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">94%</div>
-                  <Badge className="mt-2 bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
+                  <div className="text-2xl font-medium text-foreground">94%</div>
+                  <Badge className="mt-2 bg-[oklch(0.55_0.15_160)] text-white">良好</Badge>
                 </CardContent>
               </Card>
 
               <Card>
-                <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">未回答者</CardDescription>
+                <CardHeader className="pb-3">
+                  <CardDescription>未回答者</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center gap-2">
-                    <Clock className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-lg sm:text-xl md:text-2xl font-medium text-foreground">5名</span>
+                    <Clock className="h-5 w-5 text-muted-foreground" />
+                    <span className="text-2xl font-medium text-foreground">5名</span>
                   </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Main Content Tabs */}
-            <Tabs defaultValue="surveys" className="space-y-4 sm:space-y-6">
-              <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 text-xs sm:text-sm">
+            <Tabs defaultValue="surveys" className="space-y-6">
+              <TabsList>
                 <TabsTrigger value="surveys">サーベイ管理</TabsTrigger>
                 <TabsTrigger value="users">ユーザー管理</TabsTrigger>
-                <TabsTrigger value="responses" className="hidden sm:block">
-                  回答状況
-                </TabsTrigger>
-                <TabsTrigger value="export" className="hidden sm:block">
-                  データ出力
-                </TabsTrigger>
+                <TabsTrigger value="responses">回答状況</TabsTrigger>
+                <TabsTrigger value="export">データ出力</TabsTrigger>
               </TabsList>
 
               {/* Survey Management */}
-              <TabsContent value="surveys" className="space-y-4 sm:space-y-6">
+              <TabsContent value="surveys" className="space-y-6">
                 <Card>
-                  <CardHeader className="pb-3 sm:pb-4">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-base sm:text-lg">サーベイ期間管理</CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">
-                          サーベイの実施期間を設定・管理します
-                        </CardDescription>
+                        <CardTitle>サーベイ期間管理</CardTitle>
+                        <CardDescription>サーベイの実施期間を設定・管理します</CardDescription>
                       </div>
                       <Dialog open={isAddSurveyOpen} onOpenChange={setIsAddSurveyOpen}>
                         <DialogTrigger asChild>
-                          <Button className="w-full sm:w-auto text-xs sm:text-sm">
+                          <Button>
                             <Plus className="mr-2 h-4 w-4" />
                             新規サーベイ
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="w-[95vw] sm:w-full">
+                        <DialogContent>
                           <DialogHeader>
                             <DialogTitle>新規サーベイの作成</DialogTitle>
                             <DialogDescription>サーベイの実施期間を設定してください</DialogDescription>
@@ -194,7 +188,7 @@ export default function AdminPage() {
                               <Label htmlFor="survey-name">サーベイ名</Label>
                               <Input id="survey-name" placeholder="例: 2025年4月" />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                               <div className="space-y-2">
                                 <Label htmlFor="start-date">開始日</Label>
                                 <Input id="start-date" type="date" />
@@ -205,31 +199,25 @@ export default function AdminPage() {
                               </div>
                             </div>
                           </div>
-                          <DialogFooter className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              onClick={() => setIsAddSurveyOpen(false)}
-                              className="flex-1 sm:flex-none"
-                            >
+                          <DialogFooter>
+                            <Button variant="outline" onClick={() => setIsAddSurveyOpen(false)}>
                               キャンセル
                             </Button>
-                            <Button onClick={() => setIsAddSurveyOpen(false)} className="flex-1 sm:flex-none">
-                              作成
-                            </Button>
+                            <Button onClick={() => setIsAddSurveyOpen(false)}>作成</Button>
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
                     </div>
                   </CardHeader>
-                  <CardContent className="overflow-x-auto">
-                    <Table className="text-xs sm:text-sm">
+                  <CardContent>
+                    <Table>
                       <TableHeader>
                         <TableRow>
                           <TableHead>期間名</TableHead>
-                          <TableHead className="hidden sm:table-cell">開始日</TableHead>
-                          <TableHead className="hidden sm:table-cell">終了日</TableHead>
+                          <TableHead>開始日</TableHead>
+                          <TableHead>終了日</TableHead>
                           <TableHead>ステータス</TableHead>
-                          <TableHead className="hidden md:table-cell">回答率</TableHead>
+                          <TableHead>回答率</TableHead>
                           <TableHead className="text-right">操作</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -237,24 +225,22 @@ export default function AdminPage() {
                         {surveyPeriods.map((period) => (
                           <TableRow key={period.id}>
                             <TableCell className="font-medium">{period.name}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{period.startDate}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{period.endDate}</TableCell>
+                            <TableCell>{period.startDate}</TableCell>
+                            <TableCell>{period.endDate}</TableCell>
                             <TableCell>
                               {period.status === "active" ? (
-                                <Badge className="bg-[oklch(0.55_0.15_160)] text-white text-xs">実施中</Badge>
+                                <Badge className="bg-[oklch(0.55_0.15_160)] text-white">実施中</Badge>
                               ) : (
-                                <Badge variant="secondary" className="text-xs">
-                                  完了
-                                </Badge>
+                                <Badge variant="secondary">完了</Badge>
                               )}
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">{period.responseRate}%</TableCell>
+                            <TableCell>{period.responseRate}%</TableCell>
                             <TableCell className="text-right">
-                              <div className="flex items-center justify-end gap-1">
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                              <div className="flex items-center justify-end gap-2">
+                                <Button variant="ghost" size="sm">
                                   <Edit className="h-4 w-4" />
                                 </Button>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <Button variant="ghost" size="sm">
                                   <Download className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -268,24 +254,22 @@ export default function AdminPage() {
               </TabsContent>
 
               {/* User Management */}
-              <TabsContent value="users" className="space-y-4 sm:space-y-6">
+              <TabsContent value="users" className="space-y-6">
                 <Card>
-                  <CardHeader className="pb-3 sm:pb-4">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-base sm:text-lg">ユーザー管理</CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">
-                          システムユーザーの追加・編集・削除
-                        </CardDescription>
+                        <CardTitle>ユーザー管理</CardTitle>
+                        <CardDescription>システムユーザーの追加・編集・削除</CardDescription>
                       </div>
                       <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
                         <DialogTrigger asChild>
-                          <Button className="w-full sm:w-auto text-xs sm:text-sm">
+                          <Button>
                             <Plus className="mr-2 h-4 w-4" />
                             ユーザー追加
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="w-[95vw] sm:w-full">
+                        <DialogContent>
                           <DialogHeader>
                             <DialogTitle>新規ユーザーの追加</DialogTitle>
                             <DialogDescription>ユーザー情報を入力してください</DialogDescription>
@@ -326,31 +310,25 @@ export default function AdminPage() {
                               </Select>
                             </div>
                           </div>
-                          <DialogFooter className="flex gap-2">
-                            <Button
-                              variant="outline"
-                              onClick={() => setIsAddUserOpen(false)}
-                              className="flex-1 sm:flex-none"
-                            >
+                          <DialogFooter>
+                            <Button variant="outline" onClick={() => setIsAddUserOpen(false)}>
                               キャンセル
                             </Button>
-                            <Button onClick={() => setIsAddUserOpen(false)} className="flex-1 sm:flex-none">
-                              追加
-                            </Button>
+                            <Button onClick={() => setIsAddUserOpen(false)}>追加</Button>
                           </DialogFooter>
                         </DialogContent>
                       </Dialog>
                     </div>
                   </CardHeader>
-                  <CardContent className="overflow-x-auto">
-                    <Table className="text-xs sm:text-sm">
+                  <CardContent>
+                    <Table>
                       <TableHeader>
                         <TableRow>
                           <TableHead>氏名</TableHead>
-                          <TableHead className="hidden md:table-cell">メールアドレス</TableHead>
-                          <TableHead className="hidden sm:table-cell">部門</TableHead>
+                          <TableHead>メールアドレス</TableHead>
+                          <TableHead>部門</TableHead>
                           <TableHead>権限</TableHead>
-                          <TableHead className="hidden sm:table-cell">ステータス</TableHead>
+                          <TableHead>ステータス</TableHead>
                           <TableHead className="text-right">操作</TableHead>
                         </TableRow>
                       </TableHeader>
@@ -358,24 +336,24 @@ export default function AdminPage() {
                         {users.map((user) => (
                           <TableRow key={user.id}>
                             <TableCell className="font-medium">{user.name}</TableCell>
-                            <TableCell className="hidden md:table-cell">{user.email}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{user.department}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.department}</TableCell>
                             <TableCell>
-                              <Badge variant={user.role === "admin" ? "default" : "secondary"} className="text-xs">
+                              <Badge variant={user.role === "admin" ? "default" : "secondary"}>
                                 {user.role === "admin" ? "管理者" : user.role === "manager" ? "マネージャー" : "一般"}
                               </Badge>
                             </TableCell>
-                            <TableCell className="hidden sm:table-cell">
-                              <Badge variant="outline" className="text-[oklch(0.55_0.15_160)] text-xs">
+                            <TableCell>
+                              <Badge variant="outline" className="text-[oklch(0.55_0.15_160)]">
                                 有効
                               </Badge>
                             </TableCell>
                             <TableCell className="text-right">
-                              <div className="flex items-center justify-end gap-1">
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                              <div className="flex items-center justify-end gap-2">
+                                <Button variant="ghost" size="sm">
                                   <Edit className="h-4 w-4" />
                                 </Button>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                <Button variant="ghost" size="sm">
                                   <Trash2 className="h-4 w-4" />
                                 </Button>
                               </div>
@@ -389,49 +367,49 @@ export default function AdminPage() {
               </TabsContent>
 
               {/* Response Status */}
-              <TabsContent value="responses" className="space-y-4 sm:space-y-6">
+              <TabsContent value="responses" className="space-y-6">
                 <Card>
-                  <CardHeader className="pb-3 sm:pb-4">
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-base sm:text-lg">回答状況モニタリング</CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">現在実施中のサーベイの回答状況</CardDescription>
+                        <CardTitle>回答状況モニタリング</CardTitle>
+                        <CardDescription>現在実施中のサーベイの回答状況</CardDescription>
                       </div>
-                      <Button variant="outline" className="w-full sm:w-auto text-xs sm:text-sm bg-transparent">
+                      <Button variant="outline">
                         <Mail className="mr-2 h-4 w-4" />
                         未回答者に通知
                       </Button>
                     </div>
                   </CardHeader>
-                  <CardContent className="overflow-x-auto">
-                    <Table className="text-xs sm:text-sm">
+                  <CardContent>
+                    <Table>
                       <TableHeader>
                         <TableRow>
                           <TableHead>氏名</TableHead>
-                          <TableHead className="hidden sm:table-cell">部門</TableHead>
+                          <TableHead>部門</TableHead>
                           <TableHead>ステータス</TableHead>
-                          <TableHead className="hidden md:table-cell">回答日時</TableHead>
+                          <TableHead>回答日時</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {responseStatus.map((response, index) => (
                           <TableRow key={index}>
                             <TableCell className="font-medium">{response.name}</TableCell>
-                            <TableCell className="hidden sm:table-cell">{response.department}</TableCell>
+                            <TableCell>{response.department}</TableCell>
                             <TableCell>
                               {response.status === "completed" ? (
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-2">
                                   <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.15_160)]" />
-                                  <span className="text-[oklch(0.55_0.15_160)] text-xs sm:text-sm">回答済み</span>
+                                  <span className="text-[oklch(0.55_0.15_160)]">回答済み</span>
                                 </div>
                               ) : (
-                                <div className="flex items-center gap-1">
+                                <div className="flex items-center gap-2">
                                   <XCircle className="h-4 w-4 text-[oklch(0.75_0.15_65)]" />
-                                  <span className="text-[oklch(0.75_0.15_65)] text-xs sm:text-sm">未回答</span>
+                                  <span className="text-[oklch(0.75_0.15_65)]">未回答</span>
                                 </div>
                               )}
                             </TableCell>
-                            <TableCell className="hidden md:table-cell">{response.completedAt || "-"}</TableCell>
+                            <TableCell>{response.completedAt || "-"}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -441,31 +419,29 @@ export default function AdminPage() {
               </TabsContent>
 
               {/* Data Export */}
-              <TabsContent value="export" className="space-y-4 sm:space-y-6">
+              <TabsContent value="export" className="space-y-6">
                 <Card>
-                  <CardHeader className="pb-3 sm:pb-4">
-                    <CardTitle className="text-base sm:text-lg">データ出力</CardTitle>
-                    <CardDescription className="text-xs sm:text-sm">
-                      集計結果をCSVまたはPDF形式でダウンロード
-                    </CardDescription>
+                  <CardHeader>
+                    <CardTitle>データ出力</CardTitle>
+                    <CardDescription>集計結果をCSVまたはPDF形式でダウンロード</CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4 sm:space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                  <CardContent className="space-y-6">
+                    <div className="grid md:grid-cols-2 gap-6">
                       <Card>
-                        <CardHeader className="pb-2 sm:pb-3">
-                          <CardTitle className="text-sm sm:text-base">CSV形式</CardTitle>
-                          <CardDescription className="text-xs sm:text-sm">Excelで編集可能な形式</CardDescription>
+                        <CardHeader>
+                          <CardTitle className="text-base">CSV形式</CardTitle>
+                          <CardDescription>Excelで編集可能な形式</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2 sm:space-y-3">
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                        <CardContent className="space-y-3">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             全体集計結果
                           </Button>
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             部門別集計結果
                           </Button>
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             個人別スコア
                           </Button>
@@ -473,20 +449,20 @@ export default function AdminPage() {
                       </Card>
 
                       <Card>
-                        <CardHeader className="pb-2 sm:pb-3">
-                          <CardTitle className="text-sm sm:text-base">PDF形式</CardTitle>
-                          <CardDescription className="text-xs sm:text-sm">印刷・配布用レポート</CardDescription>
+                        <CardHeader>
+                          <CardTitle className="text-base">PDF形式</CardTitle>
+                          <CardDescription>印刷・配布用レポート</CardDescription>
                         </CardHeader>
-                        <CardContent className="space-y-2 sm:space-y-3">
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                        <CardContent className="space-y-3">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             総合レポート
                           </Button>
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             部門別レポート
                           </Button>
-                          <Button className="w-full bg-transparent text-xs sm:text-sm" variant="outline">
+                          <Button className="w-full bg-transparent" variant="outline">
                             <Download className="mr-2 h-4 w-4" />
                             時系列比較レポート
                           </Button>
@@ -495,15 +471,15 @@ export default function AdminPage() {
                     </div>
 
                     <Card className="bg-muted/30">
-                      <CardHeader className="pb-2 sm:pb-3">
-                        <CardTitle className="text-sm sm:text-base">カスタム出力</CardTitle>
+                      <CardHeader>
+                        <CardTitle className="text-base">カスタム出力</CardTitle>
                       </CardHeader>
-                      <CardContent className="space-y-3 sm:space-y-4">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                      <CardContent className="space-y-4">
+                        <div className="grid md:grid-cols-2 gap-4">
                           <div className="space-y-2">
-                            <Label className="text-xs sm:text-sm">期間</Label>
+                            <Label>期間</Label>
                             <Select>
-                              <SelectTrigger className="text-xs sm:text-sm">
+                              <SelectTrigger>
                                 <SelectValue placeholder="期間を選択" />
                               </SelectTrigger>
                               <SelectContent>
@@ -514,9 +490,9 @@ export default function AdminPage() {
                             </Select>
                           </div>
                           <div className="space-y-2">
-                            <Label className="text-xs sm:text-sm">形式</Label>
+                            <Label>形式</Label>
                             <Select>
-                              <SelectTrigger className="text-xs sm:text-sm">
+                              <SelectTrigger>
                                 <SelectValue placeholder="形式を選択" />
                               </SelectTrigger>
                               <SelectContent>
@@ -526,7 +502,7 @@ export default function AdminPage() {
                             </Select>
                           </div>
                         </div>
-                        <Button className="w-full text-xs sm:text-sm">
+                        <Button className="w-full">
                           <Download className="mr-2 h-4 w-4" />
                           カスタム出力を実行
                         </Button>

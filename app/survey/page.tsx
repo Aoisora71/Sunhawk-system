@@ -45,6 +45,7 @@ export default function SurveyPage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
+    // Simulate submission
     setTimeout(() => {
       router.push("/survey/complete")
     }, 1500)
@@ -56,23 +57,21 @@ export default function SurveyPage() {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex flex-col md:flex-row">
+      <div className="flex">
         <DashboardNav />
-        <main className="flex-1 p-3 sm:p-4 md:p-8 w-full overflow-x-hidden">
-          <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
+        <main className="flex-1 p-8">
+          <div className="max-w-3xl mx-auto space-y-8">
             {/* Header */}
             <div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">組織サーベイ</h1>
-              <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
-                全78問の質問にお答えください。回答は匿名で処理されます。
-              </p>
+              <h1 className="text-3xl font-medium text-foreground mb-2">組織サーベイ</h1>
+              <p className="text-muted-foreground">全78問の質問にお答えください。回答は匿名で処理されます。</p>
             </div>
 
             {/* Overall Progress */}
             <Card>
-              <CardHeader className="pb-2 sm:pb-3">
-                <CardTitle className="text-base sm:text-lg">回答状況</CardTitle>
-                <CardDescription className="text-xs sm:text-sm">
+              <CardHeader>
+                <CardTitle>回答状況</CardTitle>
+                <CardDescription>
                   {answeredCount}問 / {surveyQuestions.length}問 回答済み（{completionPercentage}%）
                 </CardDescription>
               </CardHeader>
@@ -89,27 +88,18 @@ export default function SurveyPage() {
             <SurveyQuestionCard question={currentQuestion} value={currentAnswer} onChange={handleAnswerChange} />
 
             {/* Navigation */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2 sm:pt-4">
-              <Button
-                variant="outline"
-                onClick={handlePrevious}
-                disabled={isFirstQuestion}
-                className="w-full sm:w-auto text-sm sm:text-base bg-transparent"
-              >
+            <div className="flex items-center justify-between pt-4">
+              <Button variant="outline" onClick={handlePrevious} disabled={isFirstQuestion}>
                 <ChevronLeft className="mr-2 h-4 w-4" />
                 前の質問
               </Button>
 
-              <div className="text-xs sm:text-sm text-muted-foreground order-3 sm:order-2">
+              <div className="text-sm text-muted-foreground">
                 {currentQuestionIndex + 1} / {surveyQuestions.length}
               </div>
 
               {isLastQuestion ? (
-                <Button
-                  onClick={handleSubmit}
-                  disabled={!currentAnswer || isSubmitting}
-                  className="w-full sm:w-auto text-sm sm:text-base order-2 sm:order-3"
-                >
+                <Button onClick={handleSubmit} disabled={!currentAnswer || isSubmitting}>
                   {isSubmitting ? (
                     "送信中..."
                   ) : (
@@ -120,11 +110,7 @@ export default function SurveyPage() {
                   )}
                 </Button>
               ) : (
-                <Button
-                  onClick={handleNext}
-                  disabled={!currentAnswer}
-                  className="w-full sm:w-auto text-sm sm:text-base order-2 sm:order-3"
-                >
+                <Button onClick={handleNext} disabled={!currentAnswer}>
                   次の質問
                   <ChevronRight className="ml-2 h-4 w-4" />
                 </Button>
@@ -133,20 +119,18 @@ export default function SurveyPage() {
 
             {/* Category Navigation */}
             <Card>
-              <CardHeader className="pb-2 sm:pb-3">
-                <CardTitle className="text-sm sm:text-base">カテゴリ別進捗</CardTitle>
+              <CardHeader>
+                <CardTitle className="text-base">カテゴリ別進捗</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                   {[
-                    "変化意識",
-                    "成果視点",
-                    "行動優先意識",
-                    "結果明確",
-                    "自己評価意識",
-                    "時感覚",
-                    "組織内位置認識",
-                    "免責意識",
+                    "リーダーシップ",
+                    "チームワーク",
+                    "コミュニケーション",
+                    "業務効率",
+                    "イノベーション",
+                    "顧客志向",
                   ].map((category) => {
                     const categoryQuestions = surveyQuestions.filter((q) => q.category === category)
                     const categoryAnswered = categoryQuestions.filter((q) => answers[q.id]).length
@@ -154,7 +138,7 @@ export default function SurveyPage() {
 
                     return (
                       <div key={category} className="space-y-1">
-                        <div className="text-xs sm:text-sm font-medium text-foreground">{category}</div>
+                        <div className="text-sm font-medium text-foreground">{category}</div>
                         <div className="text-xs text-muted-foreground">
                           {categoryAnswered} / {categoryTotal}
                         </div>

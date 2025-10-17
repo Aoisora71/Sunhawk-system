@@ -60,7 +60,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-foreground mb-2">組織サーベイ</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                xxxxxxxxxxxxx
+                78問の質問項目で組織の状態を多角的に評価。PC・スマートフォンに対応。
               </p>
             </div>
 
@@ -70,7 +70,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-foreground mb-2">データ可視化</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                xxxxxxxxxxxxxx
+                レーダーチャートと棒グラフで結果を視覚化。過去データとの比較も可能。
               </p>
             </div>
 
@@ -80,7 +80,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-foreground mb-2">組織図管理</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                xxxxxxxxxxxxxxxxxxxx
+                部門・チーム構造を視覚的に管理。階層別のスコア表示に対応。
               </p>
             </div>
 
@@ -90,7 +90,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-foreground mb-2">セキュリティ</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                xxxxxxxxxxxxxxxxxxxxx
+                回答データの匿名化オプション。権限管理で安全なデータアクセス。
               </p>
             </div>
           </div>
