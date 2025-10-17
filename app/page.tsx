@@ -60,7 +60,7 @@ export default function HomePage() {
               </div>
               <h3 className="text-lg font-medium text-foreground mb-2">組織サーベイ</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                78問の質問項目で組織の状態を多角的に評価。PC・スマートフォンに対応。
+                xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
               </p>
             </div>
 
