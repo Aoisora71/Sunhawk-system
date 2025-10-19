@@ -4,7 +4,8 @@ import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardNav } from "@/components/dashboard-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, TrendingDown, Minus, Calendar, CheckCircle2 } from "lucide-react"
+import { Calendar, CheckCircle2, FileText, AlertCircle } from "lucide-react"
+import Link from "next/link"
 import {
   RadarChart,
   PolarGrid,
@@ -20,8 +21,6 @@ import {
   Tooltip,
 } from "recharts"
 import { ChartContainer } from "@/components/ui/chart"
-import { ScoreBadge } from "@/components/score-badge"
-import { ScoreDescription } from "@/components/score-description"
 
 // Sample data for radar chart
 const radarData = [
@@ -61,55 +60,75 @@ export default function EmployeeDashboardPage() {
             <div className="flex flex-col gap-3 sm:gap-4">
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">
-                  マイダッシュボード
+                  従業員ダッシュボード
                 </h1>
                 <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
-                  あなたの評価スコアと組織の状態を確認できます
+                  サーベイに回答して、あなたのスコアを確認しましょう
                 </p>
               </div>
-              <Button variant="outline" className="w-full sm:w-auto bg-transparent text-sm sm:text-base">
-                <Calendar className="mr-2 h-4 w-4" />
-                期間を選択
-              </Button>
+              <Link href="/survey" className="block">
+                <Button variant="outline" className="w-full sm:w-auto bg-transparent text-sm sm:text-base">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  期間を選択
+                </Button>
+              </Link>
             </div>
+
+            {/* Survey Entry Card */}
+            <Card className="border-2 border-primary/20">
+              <CardHeader className="pb-3 sm:pb-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <CardTitle className="text-lg sm:text-xl flex items-center gap-2">
+                      <FileText className="h-5 w-5 text-primary" />
+                      サーベイに回答する
+                    </CardTitle>
+                    <CardDescription className="text-xs sm:text-sm mt-1">
+                      78個の質問に答えて、あなたの評価スコアを取得します
+                    </CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="bg-muted/50 rounded-lg p-4 space-y-2">
+                    <div className="flex items-center gap-2 text-sm">
+                      <AlertCircle className="h-4 w-4 text-amber-600" />
+                      <span className="text-muted-foreground">回答時間の目安：約15～20分</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-muted-foreground">
+                      6段階の評価スケールで、各質問に対してあなたの意見をお聞きします
+                    </p>
+                  </div>
+                  <Link href="/survey" className="block">
+                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+                      サーベイを開始する
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Overall Score Card */}
             <Card>
               <CardHeader className="pb-3 sm:pb-4">
                 <CardTitle className="text-lg sm:text-xl">あなたのスコア</CardTitle>
-                <CardDescription className="text-xs sm:text-sm">最新のサーベイ結果（2025年1月実施）</CardDescription>
+                <CardDescription className="text-xs sm:text-sm">最新のサーベイ結果</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="flex flex-col gap-4 sm:gap-6">
-                  <div className="space-y-3 sm:space-y-4">
-                    <ScoreBadge score={currentScore} />
-                    <ScoreDescription score={currentScore} />
-                    <div className="flex items-center gap-2 text-xs sm:text-sm">
-                      {scoreDiff > 0 ? (
-                        <>
-                          <TrendingUp className="h-4 w-4 text-[oklch(0.55_0.15_160)]" />
-                          <span className="text-[oklch(0.55_0.15_160)] font-medium">+{scoreDiff}点</span>
-                        </>
-                      ) : scoreDiff < 0 ? (
-                        <>
-                          <TrendingDown className="h-4 w-4 text-[oklch(0.55_0.22_25)]" />
-                          <span className="text-[oklch(0.55_0.22_25)] font-medium">{scoreDiff}点</span>
-                        </>
-                      ) : (
-                        <>
-                          <Minus className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground font-medium">変化なし</span>
-                        </>
-                      )}
-                      <span className="text-muted-foreground">前回比</span>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">総合スコア</p>
+                      <p className="text-3xl sm:text-4xl font-bold text-foreground">78</p>
+                    </div>
+                    <div className="text-right">
+                      <CheckCircle2 className="h-8 w-8 text-green-600 mb-2" />
+                      <p className="text-xs sm:text-sm text-green-600 font-medium">回答済み</p>
                     </div>
                   </div>
-                  <div className="text-left border-t border-border pt-4">
-                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">回答状況</div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.15_160)]" />
-                      <span className="text-sm font-medium">回答済み</span>
-                    </div>
+                  <div className="text-xs sm:text-sm text-muted-foreground">
+                    <p>最終更新：2025年1月15日</p>
                   </div>
                 </div>
               </CardContent>
