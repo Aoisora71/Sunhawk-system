@@ -42,3 +42,14 @@ export function isAdmin(email: string): boolean {
 export function isEmployee(email: string): boolean {
   return getUserRole(email) === "employee"
 }
+
+export function getCurrentUserRole(): UserRole | null {
+  if (typeof window === "undefined") return null
+  const role = localStorage.getItem("userRole") as UserRole | null
+  return role
+}
+
+export function setCurrentUserRole(role: UserRole): void {
+  if (typeof window === "undefined") return
+  localStorage.setItem("userRole", role)
+}
