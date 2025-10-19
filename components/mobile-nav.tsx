@@ -1,17 +1,16 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { LayoutDashboard, FileText, Users, Settings, BarChart3, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { getCurrentUserRole } from "@/lib/auth-utils"
 
-const adminNavItems = [
+const navItems = [
   {
     title: "ダッシュボード",
-    href: "/admin-dashboard",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -36,35 +35,9 @@ const adminNavItems = [
   },
 ]
 
-const employeeNavItems = [
-  {
-    title: "ダッシュボード",
-    href: "/employee-dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "サーベイ回答",
-    href: "/survey",
-    icon: FileText,
-  },
-  {
-    title: "マイスコア",
-    href: "/employee-score",
-    icon: BarChart3,
-  },
-]
-
 export function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
-  const [userRole, setUserRole] = useState<string | null>(null)
   const pathname = usePathname()
-
-  useEffect(() => {
-    const role = getCurrentUserRole()
-    setUserRole(role)
-  }, [])
-
-  const navItems = userRole === "admin" ? adminNavItems : employeeNavItems
 
   return (
     <>

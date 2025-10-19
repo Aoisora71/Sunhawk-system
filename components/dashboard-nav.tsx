@@ -4,13 +4,11 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { LayoutDashboard, FileText, Users, Settings, BarChart3 } from "lucide-react"
-import { getCurrentUserRole } from "@/lib/auth-utils"
-import { useEffect, useState } from "react"
 
-const adminNavItems = [
+const navItems = [
   {
     title: "ダッシュボード",
-    href: "/admin-dashboard",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
@@ -35,34 +33,8 @@ const adminNavItems = [
   },
 ]
 
-const employeeNavItems = [
-  {
-    title: "ダッシュボード",
-    href: "/employee-dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "サーベイ回答",
-    href: "/survey",
-    icon: FileText,
-  },
-  {
-    title: "マイスコア",
-    href: "/employee-score",
-    icon: BarChart3,
-  },
-]
-
 export function DashboardNav() {
   const pathname = usePathname()
-  const [userRole, setUserRole] = useState<string | null>(null)
-
-  useEffect(() => {
-    const role = getCurrentUserRole()
-    setUserRole(role)
-  }, [])
-
-  const navItems = userRole === "admin" ? adminNavItems : employeeNavItems
 
   return (
     <nav className="hidden md:block w-64 border-r border-border bg-card min-h-[calc(100vh-73px)]">
