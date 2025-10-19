@@ -48,7 +48,7 @@ const employeeNavItems = [
   },
   {
     title: "マイスコア",
-    href: "/my-scores",
+    href: "/employee-score",
     icon: BarChart3,
   },
 ]
