@@ -22,6 +22,7 @@ import {
 import { ChartContainer } from "@/components/ui/chart"
 import { ScoreBadge } from "@/components/score-badge"
 import { ScoreDescription } from "@/components/score-description"
+import { useState, useEffect } from "react"
 
 // Sample data for radar chart
 const radarData = [
@@ -46,6 +47,17 @@ const historicalData = [
 ]
 
 export default function EmployeeDashboardPage() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
   const currentScore = 78
   const previousScore = 76
   const scoreDiff = currentScore - previousScore
@@ -138,12 +150,12 @@ export default function EmployeeDashboardPage() {
                         <PolarGrid stroke="oklch(0.92 0.005 264)" />
                         <PolarAngleAxis
                           dataKey="category"
-                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 9 : 11 }}
+                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: isMobile ? 9 : 11 }}
                         />
                         <PolarRadiusAxis
                           angle={90}
                           domain={[0, 100]}
-                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 8 : 10 }}
+                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: isMobile ? 8 : 10 }}
                         />
                         <Radar
                           name="スコア"
@@ -185,14 +197,11 @@ export default function EmployeeDashboardPage() {
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={historicalData} margin={{ top: 10, right: 10, bottom: 10, left: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 264)" />
-                        <XAxis
-                          dataKey="month"
-                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 9 : 10 }}
-                        />
+                        <XAxis dataKey="month" tick={{ fill: "oklch(0.55 0.01 264)", fontSize: isMobile ? 9 : 10 }} />
                         <YAxis
                           domain={[0, 100]}
-                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 8 : 10 }}
-                          width={window.innerWidth < 640 ? 30 : 40}
+                          tick={{ fill: "oklch(0.55 0.01 264)", fontSize: isMobile ? 8 : 10 }}
+                          width={isMobile ? 30 : 40}
                         />
                         <Tooltip
                           contentStyle={{
