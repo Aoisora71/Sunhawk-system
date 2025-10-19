@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { getUserRole } from "@/lib/auth-utils"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -20,10 +21,18 @@ export default function LoginPage() {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate login - replace with actual authentication
     setTimeout(() => {
       setIsLoading(false)
-      router.push("/dashboard")
+      const role = getUserRole(email)
+
+      if (role === "admin") {
+        router.push("/admin-dashboard")
+      } else if (role === "employee") {
+        router.push("/employee-dashboard")
+      } else {
+        // Invalid user
+        alert("ユーザーが見つかりません")
+      }
     }, 1000)
   }
 
@@ -49,7 +58,7 @@ export default function LoginPage() {
                 <Input
                   id="email"
                   type="email"
-                  placeholder="example@sanhawk.co.jp"
+                  placeholder="example@sunhawk.co.jp"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

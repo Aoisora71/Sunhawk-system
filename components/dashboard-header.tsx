@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Bell, LogOut, User } from "lucide-react"
 import Link from "next/link"
+import { MobileNav } from "@/components/mobile-nav"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,13 +16,13 @@ import {
 export function DashboardHeader() {
   return (
     <header className="border-b border-border bg-card sticky top-0 z-50">
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-4 md:px-6 py-4">
         <div className="flex items-center gap-2">
           <div className="h-8 w-8 bg-primary rounded" />
-          <span className="text-lg font-medium text-foreground">サンホーク</span>
+          <span className="text-lg font-medium text-foreground hidden sm:inline">サンホーク</span>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
@@ -51,6 +52,8 @@ export function DashboardHeader() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <MobileNav />
         </div>
       </div>
     </header>

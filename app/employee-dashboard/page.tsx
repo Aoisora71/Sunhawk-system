@@ -1,12 +1,10 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardNav } from "@/components/dashboard-nav"
-import { ScoreBadge } from "@/components/score-badge"
-import { ScoreDescription } from "@/components/score-description"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { TrendingUp, TrendingDown, Minus, Calendar } from "lucide-react"
+import { TrendingUp, TrendingDown, Minus, Calendar, CheckCircle2 } from "lucide-react"
 import {
   RadarChart,
   PolarGrid,
@@ -21,8 +19,9 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts"
-import { BarChart, Bar } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer } from "@/components/ui/chart"
+import { ScoreBadge } from "@/components/score-badge"
+import { ScoreDescription } from "@/components/score-description"
 
 // Sample data for radar chart
 const radarData = [
@@ -36,15 +35,6 @@ const radarData = [
   { category: "免責意識", score: 81, fullMark: 100 },
 ]
 
-// Sample data for bar chart (department comparison)
-const departmentData = [
-  { name: "輸送第一課", score: 78 },
-  { name: "輸送第二課", score: 72 },
-  { name: "輸送第三課", score: 81 },
-  { name: "管理課", score: 85 },
-  { name: "実FARM事業", score: 76 },
-]
-
 // Sample historical data
 const historicalData = [
   { month: "1月", score: 68 },
@@ -55,7 +45,7 @@ const historicalData = [
   { month: "6月", score: 78 },
 ]
 
-export default function DashboardPage() {
+export default function EmployeeDashboardPage() {
   const currentScore = 78
   const previousScore = 76
   const scoreDiff = currentScore - previousScore
@@ -71,10 +61,10 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-3 sm:gap-4">
               <div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-medium text-foreground mb-1 sm:mb-2">
-                  ダッシュボード
+                  マイダッシュボード
                 </h1>
                 <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
-                  組織の健全性を一目で確認できます
+                  あなたの評価スコアと組織の状態を確認できます
                 </p>
               </div>
               <Button variant="outline" className="w-full sm:w-auto bg-transparent text-sm sm:text-base">
@@ -86,7 +76,7 @@ export default function DashboardPage() {
             {/* Overall Score Card */}
             <Card>
               <CardHeader className="pb-3 sm:pb-4">
-                <CardTitle className="text-lg sm:text-xl">総合スコア</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">あなたのスコア</CardTitle>
                 <CardDescription className="text-xs sm:text-sm">最新のサーベイ結果（2025年1月実施）</CardDescription>
               </CardHeader>
               <CardContent>
@@ -115,9 +105,11 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <div className="text-left border-t border-border pt-4">
-                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">回答率</div>
-                    <div className="text-xl sm:text-2xl font-medium text-foreground">94%</div>
-                    <div className="text-xs sm:text-sm text-muted-foreground">78名中73名が回答</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">回答状況</div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-4 w-4 text-[oklch(0.55_0.15_160)]" />
+                      <span className="text-sm font-medium">回答済み</span>
+                    </div>
                   </div>
                 </div>
               </CardContent>
@@ -174,11 +166,11 @@ export default function DashboardPage() {
                 </CardContent>
               </Card>
 
-              {/* Department Comparison */}
+              {/* Historical Trend */}
               <Card className="overflow-hidden">
                 <CardHeader className="pb-2 sm:pb-3 md:pb-4">
-                  <CardTitle className="text-base sm:text-lg md:text-xl">部門別スコア</CardTitle>
-                  <CardDescription className="text-xs sm:text-sm">各部門の総合スコア比較</CardDescription>
+                  <CardTitle className="text-base sm:text-lg md:text-xl">スコア推移</CardTitle>
+                  <CardDescription className="text-xs sm:text-sm">過去6ヶ月間のスコアの変化</CardDescription>
                 </CardHeader>
                 <CardContent className="p-2 sm:p-3 md:p-6">
                   <ChartContainer
@@ -191,88 +183,48 @@ export default function DashboardPage() {
                     className="h-[200px] sm:h-[250px] md:h-[300px] w-full"
                   >
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={departmentData} margin={{ top: 10, right: 10, bottom: 30, left: 0 }}>
+                      <LineChart data={historicalData} margin={{ top: 10, right: 10, bottom: 10, left: 0 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 264)" />
                         <XAxis
-                          dataKey="name"
+                          dataKey="month"
                           tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 9 : 10 }}
-                          angle={window.innerWidth < 640 ? -45 : 0}
-                          textAnchor={window.innerWidth < 640 ? "end" : "middle"}
-                          height={window.innerWidth < 640 ? 60 : 30}
                         />
                         <YAxis
                           domain={[0, 100]}
                           tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 8 : 10 }}
                           width={window.innerWidth < 640 ? 30 : 40}
                         />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="score" fill="oklch(0.45 0.15 264)" radius={[4, 4, 0, 0]} />
-                      </BarChart>
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: "oklch(0.98 0.002 264)",
+                            border: "1px solid oklch(0.92 0.005 264)",
+                            borderRadius: "6px",
+                            fontSize: "12px",
+                          }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="score"
+                          stroke="oklch(0.45 0.15 264)"
+                          strokeWidth={2}
+                          dot={{ fill: "oklch(0.45 0.15 264)", r: 4 }}
+                          activeDot={{ r: 6 }}
+                        />
+                      </LineChart>
                     </ResponsiveContainer>
                   </ChartContainer>
                 </CardContent>
               </Card>
             </div>
 
-            {/* Historical Trend */}
-            <Card className="overflow-hidden">
-              <CardHeader className="pb-2 sm:pb-3 md:pb-4">
-                <CardTitle className="text-base sm:text-lg md:text-xl">スコア推移</CardTitle>
-                <CardDescription className="text-xs sm:text-sm">過去6ヶ月間の総合スコアの変化</CardDescription>
-              </CardHeader>
-              <CardContent className="p-2 sm:p-3 md:p-6">
-                <ChartContainer
-                  config={{
-                    score: {
-                      label: "スコア",
-                      color: "oklch(0.45 0.15 264)",
-                    },
-                  }}
-                  className="h-[180px] sm:h-[220px] md:h-[280px] w-full"
-                >
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={historicalData} margin={{ top: 10, right: 10, bottom: 10, left: 0 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.005 264)" />
-                      <XAxis
-                        dataKey="month"
-                        tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 9 : 10 }}
-                        width={window.innerWidth < 640 ? 30 : 40}
-                      />
-                      <YAxis
-                        domain={[0, 100]}
-                        tick={{ fill: "oklch(0.55 0.01 264)", fontSize: window.innerWidth < 640 ? 8 : 10 }}
-                        width={window.innerWidth < 640 ? 30 : 40}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "oklch(0.98 0.002 264)",
-                          border: "1px solid oklch(0.92 0.005 264)",
-                          borderRadius: "6px",
-                          fontSize: "12px",
-                        }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="score"
-                        stroke="oklch(0.45 0.15 264)"
-                        strokeWidth={2}
-                        dot={{ fill: "oklch(0.45 0.15 264)", r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </ChartContainer>
-              </CardContent>
-            </Card>
-
             {/* Quick Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 md:gap-6">
               <Card>
                 <CardHeader className="pb-2 sm:pb-3">
-                  <CardDescription className="text-xs sm:text-sm">最高スコア部門</CardDescription>
+                  <CardDescription className="text-xs sm:text-sm">強み</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-lg sm:text-2xl font-medium text-foreground">管理課</div>
+                  <div className="text-lg sm:text-2xl font-medium text-foreground">結果明確</div>
                   <p className="text-xs sm:text-sm text-muted-foreground mt-1">85点</p>
                 </CardContent>
               </Card>

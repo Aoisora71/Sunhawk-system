@@ -4,10 +4,10 @@ import { useState } from "react"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { DashboardNav } from "@/components/dashboard-nav"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { EmployeeCard } from "@/components/employee-card"
+import { OrgTreeNode } from "@/components/org-tree-node"
+import { OrgTreeDepartment } from "@/components/org-tree-department"
 import { organizationData, ceo } from "@/lib/organization-data"
-import { Button } from "@/components/ui/button"
-import { ChevronDown, ChevronRight, Users, Building2 } from "lucide-react"
+import { Users, Building2, TrendingUp } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 export default function OrganizationPage() {
@@ -46,177 +46,122 @@ export default function OrganizationPage() {
         return teamAcc + 1 + team.members.length
       }, 0)
     )
-  }, 1) // +1 for CEO
+  }, 1)
 
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
-      <div className="flex">
+      <div className="flex flex-col md:flex-row">
         <DashboardNav />
-        <main className="flex-1 p-8">
-          <div className="max-w-7xl mx-auto space-y-8">
-            {/* Page Header */}
+        <main className="flex-1 p-2 sm:p-3 md:p-8 w-full overflow-x-auto">
+          <div className="max-w-full mx-auto space-y-3 sm:space-y-4 md:space-y-6">
+            {/* Page Header - mobile optimized */}
             <div>
-              <h1 className="text-3xl font-medium text-foreground mb-2">組織図</h1>
-              <p className="text-muted-foreground">株式会社サンホークの組織構成とスコア</p>
+              <h1 className="text-lg sm:text-xl md:text-3xl font-medium text-foreground mb-0.5 sm:mb-1">組織図</h1>
+              <p className="text-xs sm:text-sm md:text-base text-muted-foreground">
+                株式会社サンホークの組織構成とスコア
+              </p>
             </div>
 
-            {/* Stats */}
-            <div className="grid md:grid-cols-3 gap-6">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>総従業員数</CardDescription>
+            {/* Stats - mobile optimized grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
+              <Card className="hover:shadow-sm transition-shadow">
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+                    総従業員数
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center gap-2">
-                    <Users className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-2xl font-medium text-foreground">{totalEmployees}名</span>
+                  <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">
+                    {totalEmployees}名
+                  </span>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-sm transition-shadow">
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <Building2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                    部門数
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">
+                    {organizationData.length}部門
+                  </span>
+                </CardContent>
+              </Card>
+
+              <Card className="hover:shadow-sm transition-shadow sm:col-span-2 lg:col-span-1">
+                <CardHeader className="pb-1.5 sm:pb-2">
+                  <CardDescription className="text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
+                    <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4" />
+                    組織平均スコア
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <span className="text-base sm:text-lg md:text-2xl font-medium text-foreground">78点</span>
+                    <Badge className="bg-[oklch(0.55_0.15_160)] text-white text-xs">良好</Badge>
                   </div>
                 </CardContent>
               </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>部門数</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-center gap-2">
-                    <Building2 className="h-5 w-5 text-muted-foreground" />
-                    <span className="text-2xl font-medium text-foreground">{organizationData.length}部門</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>組織平均スコア</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-medium text-foreground">78点</div>
-                  <Badge className="mt-2 bg-[oklch(0.55_0.15_160)] text-white">良好</Badge>
-                </CardContent>
-              </Card>
             </div>
 
-            {/* CEO */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Building2 className="h-5 w-5" />
-                  経営層
+            {/* Organization Tree - mobile optimized */}
+            <Card className="overflow-hidden">
+              <CardHeader className="pb-2 sm:pb-3 border-b">
+                <CardTitle className="flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base md:text-lg">
+                  <Building2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5" />
+                  組織構成図
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <EmployeeCard employee={ceo} />
+              <CardContent className="p-2 sm:p-3 md:p-6 overflow-x-auto">
+                <div className="min-w-max md:min-w-full pb-2 sm:pb-3 md:pb-4">
+                  {/* CEO */}
+                  <OrgTreeNode employee={ceo} level={0} hasChildren={organizationData.length > 0}>
+                    {/* Departments */}
+                    <div className="mt-2 sm:mt-3 md:mt-6 space-y-2 sm:space-y-3 md:space-y-6">
+                      {organizationData.map((department, index) => (
+                        <OrgTreeDepartment
+                          key={department.id}
+                          department={department}
+                          isLast={index === organizationData.length - 1}
+                        />
+                      ))}
+                    </div>
+                  </OrgTreeNode>
+                </div>
               </CardContent>
             </Card>
 
-            {/* Departments */}
-            <div className="space-y-4">
-              {organizationData.map((department) => {
-                const isExpanded = expandedDepartments.has(department.id)
-
-                return (
-                  <Card key={department.id}>
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => toggleDepartment(department.id)}
-                            className="h-8 w-8 p-0"
-                          >
-                            {isExpanded ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
-                          </Button>
-                          <div>
-                            <CardTitle className="text-xl">{department.name}</CardTitle>
-                            <CardDescription className="mt-1">平均スコア: {department.averageScore}点</CardDescription>
-                          </div>
-                        </div>
-                        <Badge variant="outline">
-                          {department.teams.reduce((acc, team) => acc + team.members.length + 1, 1)}名
-                        </Badge>
-                      </div>
-                    </CardHeader>
-
-                    {isExpanded && (
-                      <CardContent className="space-y-6">
-                        {/* Department Manager */}
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-3">部門長</h4>
-                          <EmployeeCard employee={department.manager} />
-                        </div>
-
-                        {/* Teams */}
-                        {department.teams.length > 0 && (
-                          <div className="space-y-4">
-                            <h4 className="text-sm font-medium text-muted-foreground">チーム</h4>
-                            {department.teams.map((team) => {
-                              const isTeamExpanded = expandedTeams.has(team.id)
-
-                              return (
-                                <Card key={team.id} className="bg-muted/30">
-                                  <CardHeader className="pb-4">
-                                    <div className="flex items-center justify-between">
-                                      <div className="flex items-center gap-3">
-                                        <Button
-                                          variant="ghost"
-                                          size="sm"
-                                          onClick={() => toggleTeam(team.id)}
-                                          className="h-8 w-8 p-0"
-                                        >
-                                          {isTeamExpanded ? (
-                                            <ChevronDown className="h-4 w-4" />
-                                          ) : (
-                                            <ChevronRight className="h-4 w-4" />
-                                          )}
-                                        </Button>
-                                        <div>
-                                          <CardTitle className="text-base">{team.name}</CardTitle>
-                                          <CardDescription className="text-xs mt-1">
-                                            平均スコア: {team.averageScore}点
-                                          </CardDescription>
-                                        </div>
-                                      </div>
-                                      <Badge variant="secondary" className="text-xs">
-                                        {team.members.length + 1}名
-                                      </Badge>
-                                    </div>
-                                  </CardHeader>
-
-                                  {isTeamExpanded && (
-                                    <CardContent className="space-y-4">
-                                      {/* Team Manager */}
-                                      <div>
-                                        <h5 className="text-xs font-medium text-muted-foreground mb-2">責任者</h5>
-                                        <EmployeeCard employee={team.manager} size="sm" />
-                                      </div>
-
-                                      {/* Team Members */}
-                                      {team.members.length > 0 && (
-                                        <div>
-                                          <h5 className="text-xs font-medium text-muted-foreground mb-2">メンバー</h5>
-                                          <div className="grid md:grid-cols-2 gap-3">
-                                            {team.members.map((member) => (
-                                              <EmployeeCard key={member.id} employee={member} size="sm" />
-                                            ))}
-                                          </div>
-                                        </div>
-                                      )}
-                                    </CardContent>
-                                  )}
-                                </Card>
-                              )
-                            })}
-                          </div>
-                        )}
-                      </CardContent>
-                    )}
-                  </Card>
-                )
-              })}
-            </div>
+            {/* Legend - mobile optimized */}
+            <Card>
+              <CardHeader className="pb-2 sm:pb-3 border-b">
+                <CardTitle className="text-xs sm:text-sm md:text-base">スコア凡例</CardTitle>
+              </CardHeader>
+              <CardContent className="pt-2 sm:pt-3 md:pt-4">
+                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.45_0.18_145)] shrink-0" />
+                    <span className="text-xs sm:text-sm text-muted-foreground">85点以上</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.55_0.15_160)] shrink-0" />
+                    <span className="text-xs sm:text-sm text-muted-foreground">70-84点</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.65_0.12_264)] shrink-0" />
+                    <span className="text-xs sm:text-sm text-muted-foreground">55-69点</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <div className="h-2.5 w-2.5 rounded-full bg-[oklch(0.75_0.15_65)] shrink-0" />
+                    <span className="text-xs sm:text-sm text-muted-foreground">45-54点</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
         </main>
       </div>
