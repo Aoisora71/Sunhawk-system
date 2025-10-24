@@ -9,31 +9,47 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { getUserRole } from "@/lib/auth-utils"
 
 export default function LoginPage() {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError("")
 
-    setTimeout(() => {
-      setIsLoading(false)
-      const role = getUserRole(email)
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      })
 
-      if (role === "admin") {
-        router.push("/admin-dashboard")
-      } else if (role === "employee") {
-        router.push("/employee-portal")
-      } else {
-        // Invalid user
-        alert("ユーザーが見つかりません")
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError(data.error || "ログインに失敗しました")
+        setIsLoading(false)
+        return
       }
-    }, 1000)
+
+      localStorage.setItem("userEmail", email)
+      localStorage.setItem("userRole", data.user.role)
+
+      if (data.user.role === "admin") {
+        router.push("/admin-dashboard")
+      } else if (data.user.role === "employee") {
+        router.push("/employee-portal")
+      }
+    } catch (err) {
+      console.error("[v0] Login error:", err)
+      setError("ログイン処理に失敗しました")
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -53,6 +69,7 @@ export default function LoginPage() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
+              {error && <div className="p-3 bg-red-50 border border-red-200 rounded text-sm text-red-700">{error}</div>}
               <div className="space-y-2">
                 <Label htmlFor="email">メールアドレス</Label>
                 <Input
