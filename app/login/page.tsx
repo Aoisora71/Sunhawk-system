@@ -41,7 +41,7 @@ export default function LoginPage() {
       localStorage.setItem("userRole", data.user.role)
 
       if (data.user.role === "admin") {
-        router.push("/admin-dashboard")
+        router.push("/dashboard")
       } else if (data.user.role === "employee") {
         router.push("/employee-portal")
       }

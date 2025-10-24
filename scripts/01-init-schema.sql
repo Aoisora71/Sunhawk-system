@@ -4,8 +4,12 @@ CREATE TABLE IF NOT EXISTS users (
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
-  role VARCHAR(50) NOT NULL DEFAULT 'employee',
+  date_of_birth DATE,
   department VARCHAR(255),
+  position VARCHAR(255),
+  role VARCHAR(50) NOT NULL DEFAULT 'employee',
+  years_of_service INTEGER,
+  address VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
