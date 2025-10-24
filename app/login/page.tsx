@@ -28,7 +28,7 @@ export default function LoginPage() {
       if (role === "admin") {
         router.push("/admin-dashboard")
       } else if (role === "employee") {
-        router.push("/employee-dashboard")
+        router.push("/employee-portal")
       } else {
         // Invalid user
         alert("ユーザーが見つかりません")
