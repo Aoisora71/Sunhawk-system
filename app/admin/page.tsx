@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/dialog"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
-import { Users, FileText, Download, Plus, Edit, Trash2, Mail, CheckCircle2, XCircle, Clock, Lock } from "lucide-react"
+import { Users, FileText, Download, Plus, Edit, Trash2, Mail, CheckCircle2, XCircle, Clock } from "lucide-react"
 
 // Sample data
 const surveyPeriods = [
@@ -280,62 +280,200 @@ export default function AdminPage() {
                 </Card>
               </TabsContent>
 
-              {/* User Management - ENHANCED */}
+              {/* User Management - SIMPLIFIED */}
               <TabsContent value="users" className="space-y-4 sm:space-y-6">
-                <Tabs defaultValue="list" className="space-y-4 sm:space-y-6">
-                  <TabsList className="grid w-full grid-cols-3 text-xs sm:text-sm">
-                    <TabsTrigger value="list">ユーザー一覧</TabsTrigger>
-                    <TabsTrigger value="create">新規作成</TabsTrigger>
-                    <TabsTrigger value="password">パスワード変更</TabsTrigger>
-                  </TabsList>
-
-                  {/* User List */}
-                  <TabsContent value="list" className="space-y-4 sm:space-y-6">
-                    <Card>
-                      <CardHeader className="pb-3 sm:pb-4">
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                          <div>
-                            <CardTitle className="text-base sm:text-lg">ユーザー管理</CardTitle>
-                            <CardDescription className="text-xs sm:text-sm">
-                              システムユーザーの追加・編集・削除
-                            </CardDescription>
-                          </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent className="overflow-x-auto">
-                        <Table className="text-xs sm:text-sm">
-                          <TableHeader>
-                            <TableRow>
-                              <TableHead>氏名</TableHead>
-                              <TableHead className="hidden md:table-cell">メールアドレス</TableHead>
-                              <TableHead className="hidden sm:table-cell">部門</TableHead>
-                              <TableHead>権限</TableHead>
-                              <TableHead className="hidden sm:table-cell">ステータス</TableHead>
-                              <TableHead className="text-right">操作</TableHead>
-                            </TableRow>
-                          </TableHeader>
-                          <TableBody>
-                            {users.map((user) => (
-                              <TableRow key={user.id}>
-                                <TableCell className="font-medium">{user.name}</TableCell>
-                                <TableCell className="hidden md:table-cell">{user.email}</TableCell>
-                                <TableCell className="hidden sm:table-cell">{user.department}</TableCell>
-                                <TableCell>
-                                  <Badge variant={user.role === "admin" ? "default" : "secondary"} className="text-xs">
-                                    {user.role === "admin"
-                                      ? "管理者"
-                                      : user.role === "manager"
-                                        ? "マネージャー"
-                                        : "一般"}
-                                  </Badge>
-                                </TableCell>
-                                <TableCell className="hidden sm:table-cell">
-                                  <Badge variant="outline" className="text-[oklch(0.55_0.15_160)] text-xs">
-                                    有効
-                                  </Badge>
-                                </TableCell>
-                                <TableCell className="text-right">
-                                  <div className="flex items-center justify-end gap-1">
+                <Card>
+                  <CardHeader className="pb-3 sm:pb-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                      <div>
+                        <CardTitle className="text-base sm:text-lg">ユーザー管理</CardTitle>
+                        <CardDescription className="text-xs sm:text-sm">
+                          システムユーザーの追加・編集・削除
+                        </CardDescription>
+                      </div>
+                      <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
+                        <DialogTrigger asChild>
+                          <Button className="w-full sm:w-auto text-xs sm:text-sm">
+                            <Plus className="mr-2 h-4 w-4" />
+                            新規登録
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto">
+                          <DialogHeader>
+                            <DialogTitle>新規ユーザー登録</DialogTitle>
+                            <DialogDescription className="text-xs sm:text-sm">
+                              新しいユーザーアカウントを作成
+                            </DialogDescription>
+                          </DialogHeader>
+                          <form className="space-y-4 py-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="new-name" className="text-xs sm:text-sm">
+                                  氏名 *
+                                </Label>
+                                <Input
+                                  id="new-name"
+                                  value={newUser.name}
+                                  onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+                                  placeholder="山田 太郎"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-email" className="text-xs sm:text-sm">
+                                  メールアドレス *
+                                </Label>
+                                <Input
+                                  id="new-email"
+                                  type="email"
+                                  value={newUser.email}
+                                  onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                                  placeholder="user@sunhawk.com"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-password" className="text-xs sm:text-sm">
+                                  パスワード *
+                                </Label>
+                                <Input
+                                  id="new-password"
+                                  type="password"
+                                  value={newUser.password}
+                                  onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                                  placeholder="パスワード"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-dob" className="text-xs sm:text-sm">
+                                  生年月日
+                                </Label>
+                                <Input
+                                  id="new-dob"
+                                  type="date"
+                                  value={newUser.dateOfBirth}
+                                  onChange={(e) => setNewUser({ ...newUser, dateOfBirth: e.target.value })}
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-department" className="text-xs sm:text-sm">
+                                  部門 *
+                                </Label>
+                                <Input
+                                  id="new-department"
+                                  value={newUser.department}
+                                  onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
+                                  placeholder="営業部"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-position" className="text-xs sm:text-sm">
+                                  職位 *
+                                </Label>
+                                <Input
+                                  id="new-position"
+                                  value={newUser.position}
+                                  onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
+                                  placeholder="課長"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-years" className="text-xs sm:text-sm">
+                                  勤続年数
+                                </Label>
+                                <Input
+                                  id="new-years"
+                                  type="number"
+                                  value={newUser.yearsOfService}
+                                  onChange={(e) => setNewUser({ ...newUser, yearsOfService: e.target.value })}
+                                  placeholder="5"
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="new-role" className="text-xs sm:text-sm">
+                                  役職 *
+                                </Label>
+                                <select
+                                  id="new-role"
+                                  value={newUser.role}
+                                  onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
+                                  className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm"
+                                >
+                                  <option value="employee">従業員</option>
+                                  <option value="admin">管理者</option>
+                                </select>
+                              </div>
+                              <div className="space-y-2 md:col-span-2">
+                                <Label htmlFor="new-address" className="text-xs sm:text-sm">
+                                  住所
+                                </Label>
+                                <Input
+                                  id="new-address"
+                                  value={newUser.address}
+                                  onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
+                                  placeholder="東京都渋谷区..."
+                                  className="text-xs sm:text-sm"
+                                />
+                              </div>
+                            </div>
+                            <DialogFooter className="flex gap-2">
+                              <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setIsAddUserOpen(false)}
+                                className="flex-1 sm:flex-none text-xs sm:text-sm"
+                              >
+                                キャンセル
+                              </Button>
+                              <Button
+                                onClick={() => setIsAddUserOpen(false)}
+                                className="flex-1 sm:flex-none text-xs sm:text-sm"
+                              >
+                                登録
+                              </Button>
+                            </DialogFooter>
+                          </form>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="overflow-x-auto">
+                    <Table className="text-xs sm:text-sm">
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>氏名</TableHead>
+                          <TableHead className="hidden md:table-cell">メールアドレス</TableHead>
+                          <TableHead className="hidden sm:table-cell">部門</TableHead>
+                          <TableHead>権限</TableHead>
+                          <TableHead className="hidden sm:table-cell">ステータス</TableHead>
+                          <TableHead className="text-right">操作</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {users.map((user) => (
+                          <TableRow key={user.id}>
+                            <TableCell className="font-medium">{user.name}</TableCell>
+                            <TableCell className="hidden md:table-cell">{user.email}</TableCell>
+                            <TableCell className="hidden sm:table-cell">{user.department}</TableCell>
+                            <TableCell>
+                              <Badge variant={user.role === "admin" ? "default" : "secondary"} className="text-xs">
+                                {user.role === "admin" ? "管理者" : user.role === "manager" ? "マネージャー" : "一般"}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="hidden sm:table-cell">
+                              <Badge variant="outline" className="text-[oklch(0.55_0.15_160)] text-xs">
+                                有効
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex items-center justify-end gap-1">
+                                <Dialog>
+                                  <DialogTrigger asChild>
                                     <Button
                                       variant="ghost"
                                       size="sm"
@@ -344,324 +482,169 @@ export default function AdminPage() {
                                     >
                                       <Edit className="h-4 w-4" />
                                     </Button>
-                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </CardContent>
-                    </Card>
-
-                    {/* Edit User Form */}
-                    {editingUser && (
-                      <Card>
-                        <CardHeader>
-                          <CardTitle className="text-base sm:text-lg">ユーザー情報編集</CardTitle>
-                          <CardDescription className="text-xs sm:text-sm">
-                            ユーザー情報を修正してください
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                          <form className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-name" className="text-xs sm:text-sm">
-                                  氏名 *
-                                </Label>
-                                <Input
-                                  id="edit-name"
-                                  value={editingUser.name}
-                                  onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-email" className="text-xs sm:text-sm">
-                                  メールアドレス
-                                </Label>
-                                <Input
-                                  id="edit-email"
-                                  type="email"
-                                  value={editingUser.email}
-                                  disabled
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-dob" className="text-xs sm:text-sm">
-                                  生年月日
-                                </Label>
-                                <Input
-                                  id="edit-dob"
-                                  type="date"
-                                  value={editingUser.dateOfBirth || ""}
-                                  onChange={(e) => setEditingUser({ ...editingUser, dateOfBirth: e.target.value })}
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-department" className="text-xs sm:text-sm">
-                                  部門 *
-                                </Label>
-                                <Input
-                                  id="edit-department"
-                                  value={editingUser.department}
-                                  onChange={(e) => setEditingUser({ ...editingUser, department: e.target.value })}
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-position" className="text-xs sm:text-sm">
-                                  職位 *
-                                </Label>
-                                <Input
-                                  id="edit-position"
-                                  value={editingUser.position || ""}
-                                  onChange={(e) => setEditingUser({ ...editingUser, position: e.target.value })}
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-years" className="text-xs sm:text-sm">
-                                  勤続年数
-                                </Label>
-                                <Input
-                                  id="edit-years"
-                                  type="number"
-                                  value={editingUser.yearsOfService || ""}
-                                  onChange={(e) =>
-                                    setEditingUser({
-                                      ...editingUser,
-                                      yearsOfService: Number.parseInt(e.target.value) || 0,
-                                    })
-                                  }
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2 md:col-span-2">
-                                <Label htmlFor="edit-address" className="text-xs sm:text-sm">
-                                  住所
-                                </Label>
-                                <Input
-                                  id="edit-address"
-                                  value={editingUser.address || ""}
-                                  onChange={(e) => setEditingUser({ ...editingUser, address: e.target.value })}
-                                  className="text-xs sm:text-sm"
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor="edit-role" className="text-xs sm:text-sm">
-                                  役職 *
-                                </Label>
-                                <select
-                                  id="edit-role"
-                                  value={editingUser.role}
-                                  onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}
-                                  className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm"
+                                  </DialogTrigger>
+                                  <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto">
+                                    <DialogHeader>
+                                      <DialogTitle>ユーザー情報編集</DialogTitle>
+                                      <DialogDescription className="text-xs sm:text-sm">
+                                        ユーザー情報を修正してください
+                                      </DialogDescription>
+                                    </DialogHeader>
+                                    <form className="space-y-4 py-4">
+                                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-name" className="text-xs sm:text-sm">
+                                            氏名 *
+                                          </Label>
+                                          <Input
+                                            id="edit-name"
+                                            value={editingUser?.name || ""}
+                                            onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-email" className="text-xs sm:text-sm">
+                                            メールアドレス
+                                          </Label>
+                                          <Input
+                                            id="edit-email"
+                                            type="email"
+                                            value={editingUser?.email || ""}
+                                            disabled
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-dob" className="text-xs sm:text-sm">
+                                            生年月日
+                                          </Label>
+                                          <Input
+                                            id="edit-dob"
+                                            type="date"
+                                            value={editingUser?.dateOfBirth || ""}
+                                            onChange={(e) =>
+                                              setEditingUser({ ...editingUser, dateOfBirth: e.target.value })
+                                            }
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-department" className="text-xs sm:text-sm">
+                                            部門 *
+                                          </Label>
+                                          <Input
+                                            id="edit-department"
+                                            value={editingUser?.department || ""}
+                                            onChange={(e) =>
+                                              setEditingUser({ ...editingUser, department: e.target.value })
+                                            }
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-position" className="text-xs sm:text-sm">
+                                            職位 *
+                                          </Label>
+                                          <Input
+                                            id="edit-position"
+                                            value={editingUser?.position || ""}
+                                            onChange={(e) =>
+                                              setEditingUser({ ...editingUser, position: e.target.value })
+                                            }
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-years" className="text-xs sm:text-sm">
+                                            勤続年数
+                                          </Label>
+                                          <Input
+                                            id="edit-years"
+                                            type="number"
+                                            value={editingUser?.yearsOfService || ""}
+                                            onChange={(e) =>
+                                              setEditingUser({
+                                                ...editingUser,
+                                                yearsOfService: e.target.value,
+                                              })
+                                            }
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2">
+                                          <Label htmlFor="edit-role" className="text-xs sm:text-sm">
+                                            役職 *
+                                          </Label>
+                                          <select
+                                            id="edit-role"
+                                            value={editingUser?.role || "employee"}
+                                            onChange={(e) => setEditingUser({ ...editingUser, role: e.target.value })}
+                                            className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm"
+                                          >
+                                            <option value="employee">従業員</option>
+                                            <option value="admin">管理者</option>
+                                          </select>
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                          <Label htmlFor="edit-address" className="text-xs sm:text-sm">
+                                            住所
+                                          </Label>
+                                          <Input
+                                            id="edit-address"
+                                            value={editingUser?.address || ""}
+                                            onChange={(e) =>
+                                              setEditingUser({ ...editingUser, address: e.target.value })
+                                            }
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                        <div className="space-y-2 md:col-span-2">
+                                          <Label htmlFor="edit-password" className="text-xs sm:text-sm">
+                                            パスワード
+                                          </Label>
+                                          <Input
+                                            id="edit-password"
+                                            type="password"
+                                            placeholder="新しいパスワード（変更する場合のみ入力）"
+                                            className="text-xs sm:text-sm"
+                                          />
+                                        </div>
+                                      </div>
+                                      <DialogFooter className="flex gap-2">
+                                        <Button
+                                          type="button"
+                                          variant="outline"
+                                          onClick={() => setEditingUser(null)}
+                                          className="flex-1 sm:flex-none text-xs sm:text-sm"
+                                        >
+                                          キャンセル
+                                        </Button>
+                                        <Button
+                                          onClick={() => setEditingUser(null)}
+                                          className="flex-1 sm:flex-none text-xs sm:text-sm"
+                                        >
+                                          更新
+                                        </Button>
+                                      </DialogFooter>
+                                    </form>
+                                  </DialogContent>
+                                </Dialog>
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700"
                                 >
-                                  <option value="employee">従業員</option>
-                                  <option value="admin">管理者</option>
-                                </select>
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
                               </div>
-                            </div>
-                            <div className="flex gap-2">
-                              <Button className="text-xs sm:text-sm">更新</Button>
-                              <Button
-                                type="button"
-                                variant="outline"
-                                onClick={() => setEditingUser(null)}
-                                className="text-xs sm:text-sm"
-                              >
-                                キャンセル
-                              </Button>
-                            </div>
-                          </form>
-                        </CardContent>
-                      </Card>
-                    )}
-                  </TabsContent>
-
-                  {/* Create User */}
-                  <TabsContent value="create" className="space-y-4 sm:space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                          <Plus className="h-5 w-5" />
-                          新規ユーザー作成
-                        </CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">新しいユーザーアカウントを作成</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <form className="space-y-4">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="name" className="text-xs sm:text-sm">
-                                氏名 *
-                              </Label>
-                              <Input
-                                id="name"
-                                value={newUser.name}
-                                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                                placeholder="山田 太郎"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="email" className="text-xs sm:text-sm">
-                                メールアドレス *
-                              </Label>
-                              <Input
-                                id="email"
-                                type="email"
-                                value={newUser.email}
-                                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                                placeholder="user@sunhawk.com"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="password" className="text-xs sm:text-sm">
-                                パスワード *
-                              </Label>
-                              <Input
-                                id="password"
-                                type="password"
-                                value={newUser.password}
-                                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                                placeholder="パスワード"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="dob" className="text-xs sm:text-sm">
-                                生年月日
-                              </Label>
-                              <Input
-                                id="dob"
-                                type="date"
-                                value={newUser.dateOfBirth}
-                                onChange={(e) => setNewUser({ ...newUser, dateOfBirth: e.target.value })}
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="department" className="text-xs sm:text-sm">
-                                部門 *
-                              </Label>
-                              <Input
-                                id="department"
-                                value={newUser.department}
-                                onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
-                                placeholder="営業部"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="position" className="text-xs sm:text-sm">
-                                職位 *
-                              </Label>
-                              <Input
-                                id="position"
-                                value={newUser.position}
-                                onChange={(e) => setNewUser({ ...newUser, position: e.target.value })}
-                                placeholder="課長"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="years" className="text-xs sm:text-sm">
-                                勤続年数
-                              </Label>
-                              <Input
-                                id="years"
-                                type="number"
-                                value={newUser.yearsOfService}
-                                onChange={(e) => setNewUser({ ...newUser, yearsOfService: e.target.value })}
-                                placeholder="5"
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="role" className="text-xs sm:text-sm">
-                                役職 *
-                              </Label>
-                              <select
-                                id="role"
-                                value={newUser.role}
-                                onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-                                className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm"
-                              >
-                                <option value="employee">従業員</option>
-                                <option value="admin">管理者</option>
-                              </select>
-                            </div>
-                            <div className="space-y-2 md:col-span-2">
-                              <Label htmlFor="address" className="text-xs sm:text-sm">
-                                住所
-                              </Label>
-                              <Input
-                                id="address"
-                                value={newUser.address}
-                                onChange={(e) => setNewUser({ ...newUser, address: e.target.value })}
-                                placeholder="東京都渋谷区..."
-                                className="text-xs sm:text-sm"
-                              />
-                            </div>
-                          </div>
-                          <Button className="w-full text-xs sm:text-sm">ユーザーを作成</Button>
-                        </form>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-
-                  {/* Password Change */}
-                  <TabsContent value="password" className="space-y-4 sm:space-y-6">
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                          <Lock className="h-5 w-5" />
-                          パスワード変更
-                        </CardTitle>
-                        <CardDescription className="text-xs sm:text-sm">ユーザーのパスワードを変更</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <form className="space-y-4 max-w-md">
-                          <div className="space-y-2">
-                            <Label htmlFor="update-email" className="text-xs sm:text-sm">
-                              メールアドレス
-                            </Label>
-                            <Input
-                              id="update-email"
-                              type="email"
-                              value={passwordUpdate.email}
-                              onChange={(e) => setPasswordUpdate({ ...passwordUpdate, email: e.target.value })}
-                              placeholder="user@sunhawk.com"
-                              className="text-xs sm:text-sm"
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="new-password" className="text-xs sm:text-sm">
-                              新しいパスワード
-                            </Label>
-                            <Input
-                              id="new-password"
-                              type="password"
-                              value={passwordUpdate.newPassword}
-                              onChange={(e) => setPasswordUpdate({ ...passwordUpdate, newPassword: e.target.value })}
-                              placeholder="新しいパスワード"
-                              className="text-xs sm:text-sm"
-                            />
-                          </div>
-                          <Button className="text-xs sm:text-sm">パスワードを更新</Button>
-                        </form>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                </Tabs>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
               </TabsContent>
 
               {/* Response Status */}
