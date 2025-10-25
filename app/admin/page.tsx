@@ -751,7 +751,7 @@ export default function AdminPage() {
 
             {editingUser && (
               <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-                <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto z-50">
+                <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto z-50 fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
                   <DialogHeader>
                     <DialogTitle>ユーザー情報編集</DialogTitle>
                     <DialogDescription className="text-xs sm:text-sm">ユーザー情報を修正してください</DialogDescription>
@@ -777,7 +777,19 @@ export default function AdminPage() {
                           id="edit-email"
                           type="email"
                           value={editingUser?.email || ""}
-                          disabled
+                          onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
+                          className="text-xs sm:text-sm"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-password" className="text-xs sm:text-sm">
+                          パスワード
+                        </Label>
+                        <Input
+                          id="edit-password"
+                          type="password"
+                          value={editingUser?.password || ""}
+                          onChange={(e) => setEditingUser({ ...editingUser, password: e.target.value })}
                           className="text-xs sm:text-sm"
                         />
                       </div>
@@ -877,7 +889,7 @@ export default function AdminPage() {
             )}
 
             <Dialog open={isChangeEmailPasswordOpen} onOpenChange={setIsChangeEmailPasswordOpen}>
-              <DialogContent className="w-[95vw] sm:w-full z-50">
+              <DialogContent className="w-[95vw] sm:w-full z-50 fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
                 <DialogHeader>
                   <DialogTitle>メールアドレスとパスワード変更</DialogTitle>
                   <DialogDescription className="text-xs sm:text-sm">

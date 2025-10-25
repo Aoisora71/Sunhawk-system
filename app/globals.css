@@ -131,4 +131,14 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* Fix modal overflow issue - prevent body scroll when dialog is open */
+  body[data-dialog-open="true"] {
+    overflow: hidden;
+  }
+
+  /* Ensure dialog backdrop doesn't cause layout shift */
+  [role="dialog"] {
+    position: fixed;
+  }
 }
