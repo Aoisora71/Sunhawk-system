@@ -2,21 +2,21 @@ import { type NextRequest, NextResponse } from "next/server"
 
 // Mock authentication - in production, use actual database
 const mockUsers = {
-  "admin@sanhawk.co.jp": {
+  "admin@sunhawk.com": {
     id: "1",
-    name: "佐藤 恭太郎",
-    email: "admin@sanhawk.co.jp",
+    name: "管理者",
+    email: "admin@sunhawk.com",
     role: "admin",
     department: "経営",
-    password: "admin123",
+    password: "admin1234!@#$",
   },
-  "employee@sanhawk.co.jp": {
+  "employee@sunhawk.com": {
     id: "2",
-    name: "山﨑 清志",
-    email: "employee@sanhawk.co.jp",
+    name: "従業員",
+    email: "employee@sunhawk.com",
     role: "employee",
     department: "輸送第一課",
-    password: "employee123",
+    password: "employee1234!@#$",
   },
 }
 
