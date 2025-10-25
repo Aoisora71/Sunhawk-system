@@ -105,7 +105,8 @@ export default function AdminPage() {
     address: "",
   })
   const [editingUser, setEditingUser] = useState<any>(null)
-  const [passwordUpdate, setPasswordUpdate] = useState({ email: "", newPassword: "" })
+  const [changeEmailPassword, setChangeEmailPassword] = useState({ userId: "", newEmail: "", newPassword: "" })
+  const [isChangeEmailPasswordOpen, setIsChangeEmailPasswordOpen] = useState(false)
 
   useEffect(() => {
     const email = localStorage.getItem("userEmail")
@@ -175,6 +176,29 @@ export default function AdminPage() {
       setUserList(userList.filter((u) => u.id !== userId))
       alert("ユーザーを削除しました")
     }
+  }
+
+  const handleChangeEmailPassword = () => {
+    if (!changeEmailPassword.newEmail && !changeEmailPassword.newPassword) {
+      alert("メールアドレスまたはパスワードを入力してください")
+      return
+    }
+
+    setUserList(
+      userList.map((u) => {
+        if (u.id === changeEmailPassword.userId) {
+          return {
+            ...u,
+            email: changeEmailPassword.newEmail || u.email,
+            password: changeEmailPassword.newPassword || u.password,
+          }
+        }
+        return u
+      }),
+    )
+    setChangeEmailPassword({ userId: "", newEmail: "", newPassword: "" })
+    setIsChangeEmailPasswordOpen(false)
+    alert("メールアドレスとパスワードを更新しました")
   }
 
   return (
@@ -379,7 +403,7 @@ export default function AdminPage() {
                             新規登録
                           </Button>
                         </DialogTrigger>
-                        <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto">
+                        <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto z-50">
                           <DialogHeader>
                             <DialogTitle>新規ユーザー登録</DialogTitle>
                             <DialogDescription className="text-xs sm:text-sm">
@@ -727,7 +751,7 @@ export default function AdminPage() {
 
             {editingUser && (
               <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-                <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto">
+                <DialogContent className="w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto z-50">
                   <DialogHeader>
                     <DialogTitle>ユーザー情報編集</DialogTitle>
                     <DialogDescription className="text-xs sm:text-sm">ユーザー情報を修正してください</DialogDescription>
@@ -851,6 +875,76 @@ export default function AdminPage() {
                 </DialogContent>
               </Dialog>
             )}
+
+            <Dialog open={isChangeEmailPasswordOpen} onOpenChange={setIsChangeEmailPasswordOpen}>
+              <DialogContent className="w-[95vw] sm:w-full z-50">
+                <DialogHeader>
+                  <DialogTitle>メールアドレスとパスワード変更</DialogTitle>
+                  <DialogDescription className="text-xs sm:text-sm">
+                    ユーザーのメールアドレスとパスワードを変更
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="change-user" className="text-xs sm:text-sm">
+                      ユーザーを選択 *
+                    </Label>
+                    <select
+                      id="change-user"
+                      value={changeEmailPassword.userId}
+                      onChange={(e) => setChangeEmailPassword({ ...changeEmailPassword, userId: e.target.value })}
+                      className="w-full px-3 py-2 border rounded-md text-xs sm:text-sm"
+                    >
+                      <option value="">ユーザーを選択してください</option>
+                      {userList.map((user) => (
+                        <option key={user.id} value={user.id}>
+                          {user.name} ({user.email})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="change-email" className="text-xs sm:text-sm">
+                      新しいメールアドレス
+                    </Label>
+                    <Input
+                      id="change-email"
+                      type="email"
+                      value={changeEmailPassword.newEmail}
+                      onChange={(e) => setChangeEmailPassword({ ...changeEmailPassword, newEmail: e.target.value })}
+                      placeholder="new-email@sunhawk.com"
+                      className="text-xs sm:text-sm"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="change-password" className="text-xs sm:text-sm">
+                      新しいパスワード
+                    </Label>
+                    <Input
+                      id="change-password"
+                      type="password"
+                      value={changeEmailPassword.newPassword}
+                      onChange={(e) => setChangeEmailPassword({ ...changeEmailPassword, newPassword: e.target.value })}
+                      placeholder="新しいパスワード"
+                      className="text-xs sm:text-sm"
+                    />
+                  </div>
+                </div>
+                <DialogFooter className="flex gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsChangeEmailPasswordOpen(false)}
+                    className="flex-1 sm:flex-none text-xs sm:text-sm"
+                  >
+                    キャンセル
+                  </Button>
+                  <Button onClick={handleChangeEmailPassword} className="flex-1 sm:flex-none text-xs sm:text-sm">
+                    変更
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </div>
         </main>
       </div>
